@@ -1,0 +1,15 @@
+syntax="proto3";
+
+package pbgame;
+
+message EnterGameNotice{
+    uint32 gameid = 1;
+}
+
+message LeaveGameNotice {
+    uint32 uid = 1;
+}
+
+message KickOffNotice {
+    uint32 uid = 1;
+}

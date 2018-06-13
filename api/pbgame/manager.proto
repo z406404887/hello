@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package pbgame;
+
+service Manager {
+    rpc GetServerList(ServerListReq) returns (ServerListRsp) {}
+}
+
+message Server {
+    uint32 id = 2;
+    uint32 type = 3;
+    string addr = 4;
+}
+
+message ServerListReq {
+    string token = 1;
+    Server server = 2;
+}
+
+
+message ServerListRsp {
+    repeated Server server = 1;
+}

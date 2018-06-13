@@ -1,0 +1,16 @@
+syntax="proto3";
+
+package pbgame;
+
+enum ErrorCode {
+    SUCCESS = 0;
+    //mysql error
+    MYSQL_ERROR = 1000;
+    CALL_SERVICE_FAILD = 1001;
+
+    //LOGIN
+    LOGIN_PASSWORD_NOT_MATCH = 2100;
+    ACCOUNT_EXISTS = 2101;
+    ACCOUNT_NOT_EXISTS = 2102;
+
+}
