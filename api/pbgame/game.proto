@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package pbgame;
+
+message EnterGameRequest {
+    string account = 1;
+}
+
+message EnterGameResponse {
+    uint32 uid = 1;
+    string name = 2;
+    int32 money = 3;
+}
+
+message RollRequest{
+
+}
+
+message RollResponse{
+    int32 win = 1;
+}
