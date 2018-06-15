@@ -12,6 +12,7 @@ func handleMsg(robot* Robot,msg []byte){
 	header := &network.CommonHeader{}
 	header.Decode(msg)
 	//log.Printf("handle msg header %+v",header)
+	log.Printf("msg: %v",msg)
 	data := msg[network.COMMON_HEADER_LENGTH:]
 	switch header.MainType {
 	case pbgame.MainAccount:

@@ -5,6 +5,6 @@ import (
 )
 
 func main() {
-	bot := robot.NewRobot("111","222","ws://192.168.2.52:11000")
+	bot := robot.NewRobot("111", "222", "ws://127.0.0.1:11000")
 	bot.Run()
 }

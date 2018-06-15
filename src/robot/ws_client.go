@@ -47,6 +47,7 @@ func (client *WsClient) dial() (*websocket.Conn,error)  {
 func (c *WsClient) readPump() {
 	defer func() {
 		c.conn.Close()
+		close(c.RecvChan)
 	}()
 
 	//c.ws.SetReadLimit(maxMessageSize)
@@ -56,9 +57,6 @@ func (c *WsClient) readPump() {
 		_, message, err := c.conn.ReadMessage()
 
 		if err != nil {
-			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-				log.Printf("error: %v", err)
-			}
 			log.Println(err)
 			break
 		}

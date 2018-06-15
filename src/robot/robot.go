@@ -23,24 +23,32 @@ func NewRobot(acc string, passwd string, srv string) *Robot{
 		srvAddr:  srv,
 		Id:       0,
 	}
-
-	r.ws = NewWsClient(srv)
 	return r
 }
 
-func (robot *Robot) Run()  {
+func (robot *Robot) Run() {
+	if ok := robot.doRun(); ok {
+		return
+	} else {
+		robot.Run()
+	}
+}
+
+func (robot *Robot) doRun() bool {
+	robot.ws = NewWsClient(robot.srvAddr)
 	Login(robot)
 	for {
 		select {
 		case msg ,ok := <- robot.ws.RecvChan:
 			if !ok {
-				log.Printf("connection closed, exit.")
+				log.Printf("connection read closed, %s exit. msg=%v",robot.account,msg)
 				close(robot.ws.SendChan)
-				break
+				return false
 			}
 			handleMsg(robot,msg)
 		}
 	}
+	return true
 }
 
 func (robot *Robot) SendMsg(main uint8,sub uint8, msg proto.Message){

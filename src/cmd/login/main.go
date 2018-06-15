@@ -3,10 +3,22 @@ package main
 import (
 	"log"
 	"login"
+	"flag"
 )
 
 func main() {
-	login,err := login.NewLogin("F:\\star\\test\\cmd\\login\\config.json")
+	var path string
+	flag.StringVar(&path, "config", "", "please give a config path.")
+	flag.StringVar(&path, "c", "F:\\star\\test\\cmd\\login\\config.json", "please give a config path.")
+
+	flag.Parse()
+
+	if path == "" {
+		log.Println("player give a config file use -c or -config")
+		return
+	}
+
+	login,err := login.NewLogin(path)
 	if err != nil{
 		log.Printf("create login failed. %v",err)
 		return

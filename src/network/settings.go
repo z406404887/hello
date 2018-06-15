@@ -8,8 +8,8 @@ import (
 var BinaryCoder = binary.LittleEndian
 
 const (
-	DefaultSendChanSize = 1000
-	PingPeriod = 1 * time.Second
-	PongWait = 2 * time.Second
-	WriteWait = 1* time.Second
+	DefaultSendChanSize = 10000
+	PingPeriod          = 54 * time.Second
+	PongWait            = 60 * time.Second
+	WriteWait           = 10 * time.Second
 )

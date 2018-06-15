@@ -56,6 +56,7 @@ func (srv * DbServer) LoadPlayer(context context.Context,req *pbgame.LoadRequest
 		rsp.Result = pbgame.ErrorCode_MYSQL_ERROR
 		return rsp,err
 	}
+	defer query.Close()
 
 	err = query.QueryRow(req.Account).Scan(&rsp.Uid,&rsp.Name,&rsp.Money)
 	if err != nil {
@@ -73,7 +74,7 @@ func (srv *DbServer) SavePlayer(context context.Context,req *pbgame.SaveRequest)
 		rsp.Result = pbgame.ErrorCode_MYSQL_ERROR
 		return rsp,err
 	}
-
+	defer update.Close()
 	_, err = update.Exec(req.Money,req.Uid)
 	if err != nil {
 		rsp.Result = pbgame.ErrorCode_MYSQL_ERROR
@@ -98,6 +99,8 @@ func (srv *DbServer) CreatePlayer(context context.Context,req *pbgame.CreatePlay
 		return rsp,err
 	}
 
+	defer query.Close()
+
 	var id uint32
 	err = query.QueryRow(req.Account).Scan(&id)
 	//account exists
@@ -112,7 +115,7 @@ func (srv *DbServer) CreatePlayer(context context.Context,req *pbgame.CreatePlay
 		rsp.Result = pbgame.ErrorCode_MYSQL_ERROR
 		return rsp,err
 	}
-
+	defer ins.Close()
 	result,err := ins.Exec(req.Account,req.Name,req.Money)
 
 	if err != nil {

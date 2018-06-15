@@ -2,26 +2,26 @@ package network
 
 import (
 	"github.com/gorilla/websocket"
-	"time"
 	"log"
 	"net"
+	"time"
 )
 
 type WsConn struct {
-	Id uint32
+	Id       uint32
 	SendChan chan []byte
-	conn *websocket.Conn
+	conn     *websocket.Conn
 }
 
 func (ws *WsConn) RemoteAddr() net.Addr {
 	return ws.conn.RemoteAddr()
 }
 
-func (ws *WsConn) ReadMsg () (int, []byte, error){
-		return  ws.conn.ReadMessage()
+func (ws *WsConn) ReadMsg() (int, []byte, error) {
+	return ws.conn.ReadMessage()
 }
 
-func (ws *WsConn) writePump()  {
+func (ws *WsConn) writePump() {
 	ticker := time.NewTicker(PingPeriod)
 	defer func() {
 		ticker.Stop()
@@ -61,7 +61,7 @@ func (ws *WsConn) writePump()  {
 	}
 }
 
-func NewWsConn(id uint32,conn *websocket.Conn,sendChanSize int) *WsConn  {
+func NewWsConn(id uint32, conn *websocket.Conn, sendChanSize int) *WsConn {
 	if sendChanSize == 0 {
 		sendChanSize = DefaultSendChanSize
 	}
@@ -69,15 +69,11 @@ func NewWsConn(id uint32,conn *websocket.Conn,sendChanSize int) *WsConn  {
 	conn.SetReadDeadline(time.Now().Add(PongWait))
 	conn.SetPongHandler(func(string) error { conn.SetReadDeadline(time.Now().Add(PongWait)); return nil })
 	ws := &WsConn{
-		Id:id,
-		SendChan:make(chan []byte,sendChanSize),
-		conn:conn,
+		Id:       id,
+		SendChan: make(chan []byte, sendChanSize),
+		conn:     conn,
 	}
 
 	go ws.writePump()
-	return ws;
+	return ws
 }
-
-
-
-
