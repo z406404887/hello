@@ -5,6 +5,7 @@ import (
 "pb/pbgame"
 	"log"
 	"github.com/golang/protobuf/proto"
+	"time"
 )
 
 //handle conn msg
@@ -26,6 +27,14 @@ func HandleSrvGameMsg(gate *Gateway,msg *network.Message){
 
 func sendToClient(gate *Gateway, msg *network.Message){
 	conn := gate.getConn(msg.Head.ClientId)
+
+	if msg.Head.MainType == pbgame.MainGame && msg.Head.SubType == pbgame.SubRollRsp {
+		if recv, ok := gate.traceTime[msg.Head.ClientId]; ok {
+			now := time.Now().UnixNano()
+			diff := (now - recv)/1e6
+			log.Printf("track %d %d %d",recv/1e6, now/1e6,diff)
+		}
+	}
 
 	if conn == nil {
 		log.Printf("conn not found. drop msg. uid=%d",msg.Head.ClientId)

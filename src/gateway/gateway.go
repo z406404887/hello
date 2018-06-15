@@ -40,6 +40,9 @@ type Gateway struct {
 	uidSrvMap map[uint32]uint32
 
 	stateSrv *network.WsClient
+
+	//track time consume
+	traceTime map[uint32]int64
 }
 
 func NewGateway(cfgPath string) (*Gateway, error) {
@@ -64,6 +67,7 @@ func NewGateway(cfgPath string) (*Gateway, error) {
 		regSrv:      make(chan *network.WsClient),
 		unRegSrv:    make(chan *network.WsClient),
 		recvSrvMsg:  make(chan *network.Message, 1000),
+		traceTime:make(map[uint32]int64),
 	}
 
 	return gate, nil

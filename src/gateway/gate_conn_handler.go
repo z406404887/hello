@@ -4,6 +4,7 @@ import (
 	"network"
 	"pb/pbgame"
 	"log"
+	"time"
 )
 
 //handle conn msg
@@ -26,6 +27,9 @@ func HandleConnGameMsg(gate *Gateway,msg *network.Message){
 }
 
 func sendToGame(gate *Gateway, msg* network.Message)  {
+	if msg.Head.MainType == pbgame.MainGame && msg.Head.SubType == pbgame.SubRollReq {
+		gate.traceTime[msg.Head.ClientId] = time.Now().UnixNano()
+	}
 	log.Printf("route msg %+v",msg.Head)
 	game := gate.GetGameClientById(msg.Head.ClientId)
 	if game == nil {
