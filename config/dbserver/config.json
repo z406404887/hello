@@ -1,0 +1,13 @@
+{
+  "id":1,
+  "type":2,
+  "addr":"127.0.0.1:15000",
+  "db":{
+    "user":"dev",
+    "password":"QWE@qwe12",
+    "protocol":"tcp",
+    "address":"127.0.0.1:3306",
+    "dbName":"role",
+    "driver":"mysql"
+  }
+}
