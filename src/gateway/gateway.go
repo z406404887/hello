@@ -67,7 +67,7 @@ func NewGateway(cfgPath string) (*Gateway, error) {
 		regSrv:      make(chan *network.WsClient),
 		unRegSrv:    make(chan *network.WsClient),
 		recvSrvMsg:  make(chan *network.Message, 1000),
-		traceTime:make(map[uint32]int64),
+		traceTime:   make(map[uint32]int64),
 	}
 
 	return gate, nil
@@ -151,7 +151,6 @@ func (gate *Gateway) onCloseConn(conn *network.WsConn) {
 }
 
 func (gate *Gateway) handleConnMsg(msg *network.Message) {
-	log.Printf("recv conn msg %v", msg)
 	handleConnMsg(gate, msg)
 }
 
@@ -180,7 +179,7 @@ func (gate *Gateway) onServerDisconnected(srv *network.WsClient) {
 }
 
 func (gate *Gateway) handleServerMsg(msg *network.Message) {
-	log.Printf("recv server msg %v", msg)
+	//log.Printf("recv server msg %v", msg)
 	HandleSrvGameMsg(gate, msg)
 }
 
