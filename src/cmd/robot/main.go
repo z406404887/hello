@@ -1,18 +1,18 @@
 package main
 
 import (
+	"fmt"
+	"log"
+	"os"
 	"robot"
 	"sync"
-	"fmt"
 	"time"
-	"os"
-	"log"
 )
 
-func RunRobot(wg sync.WaitGroup,i int)  {
+func RunRobot(wg sync.WaitGroup, i int) {
 	defer wg.Done()
-	id := fmt.Sprintf("%s-%05d","robot",i)
-	bot := robot.NewRobot(id,"123456","ws://47.98.100.204:11000")
+	id := fmt.Sprintf("%s-%05d", "robot", i)
+	bot := robot.NewRobot(id, "123456", "ws://47.98.100.204:11000")
 	bot.Run()
 }
 
@@ -27,10 +27,10 @@ func main() {
 	log.SetOutput(f)
 
 	wg := sync.WaitGroup{}
-	for i:= 0; i < 1 ; i++ {
+	for i := 0; i < 500; i++ {
 		time.Sleep(500 * time.Millisecond)
 		wg.Add(1)
-		go RunRobot(wg,i)
+		go RunRobot(wg, i)
 	}
 	wg.Wait()
 }
