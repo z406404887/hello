@@ -9,6 +9,7 @@ import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
 	"fmt"
+	"time"
 )
 
 type DbServer struct {
@@ -68,6 +69,7 @@ func (srv * DbServer) LoadPlayer(context context.Context,req *pbgame.LoadRequest
 }
 
 func (srv *DbServer) SavePlayer(context context.Context,req *pbgame.SaveRequest) (*pbgame.SaveResponse, error){
+	start := time.Now().UnixNano()
 	rsp := &pbgame.SaveResponse{}
 	update, err := srv.db.Prepare("UPDATE `role` set `money` = ? where `id`= ?")
 	if err != nil {
@@ -81,6 +83,8 @@ func (srv *DbServer) SavePlayer(context context.Context,req *pbgame.SaveRequest)
 		return rsp,err
 	}
 	rsp.Result = pbgame.ErrorCode_SUCCESS
+	end := time.Now().UnixNano()
+	log.Printf("do_save_svc %d %d %d %d",req.Uid,start/1e6,end/1e6, (end-start)/1e6)
 	return rsp,nil
 }
 

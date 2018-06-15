@@ -27,7 +27,7 @@ func main() {
 	log.SetOutput(f)
 
 	wg := sync.WaitGroup{}
-	for i:= 0; i < 1 ; i++ {
+	for i:= 0; i < 500 ; i++ {
 		time.Sleep(500 * time.Millisecond)
 		wg.Add(1)
 		go RunRobot(wg,i)

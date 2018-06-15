@@ -28,6 +28,7 @@ func handleGameMsg(agent *ConnAgent, header *network.CommonHeader,data []byte)  
 }
 
 func handleRoll(agent *ConnAgent, header *network.CommonHeader,data []byte)  {
+	recv := time.Now().UnixNano()
 	player,ok := agent.room.playerMap[header.ClientId]
 	if !ok {
 		log.Printf("player not found. id=%d",header.ClientId)
@@ -62,6 +63,8 @@ func handleRoll(agent *ConnAgent, header *network.CommonHeader,data []byte)  {
 		rsp.Win = 0
 	}
 	header.SubType = pbgame.SubRollRsp
+	end := time.Now().UnixNano()
+	log.Printf("call_save_svc  %d %d %d %d",header.ClientId,recv/1e6,end/1e6,(end-recv)/1e6)
 	agent.sendMsgBack(header,rsp)
 }
 
