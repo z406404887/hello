@@ -1,5 +1,6 @@
 # directory ignore
 #.gitignore
+.idea/
 bin/
 src/cloud.google.com/
 src/github.com/
