@@ -2,9 +2,35 @@ package main
 
 import (
 	"robot"
+	"sync"
+	"fmt"
+	"time"
+	"os"
+	"log"
 )
 
-func main() {
-	bot := robot.NewRobot("111", "222", "ws://127.0.0.1:11000")
+func RunRobot(wg sync.WaitGroup,i int)  {
+	defer wg.Done()
+	id := fmt.Sprintf("%s-%05d","robot",i)
+	bot := robot.NewRobot(id,"123456","ws://47.98.100.204:11000")
 	bot.Run()
+}
+
+func main() {
+	f, err := os.OpenFile("info.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalf("error opening file:%v", err)
+		return
+	}
+
+	defer f.Close()
+	log.SetOutput(f)
+
+	wg := sync.WaitGroup{}
+	for i:= 0; i < 1 ; i++ {
+		time.Sleep(500 * time.Millisecond)
+		wg.Add(1)
+		go RunRobot(wg,i)
+	}
+	wg.Wait()
 }

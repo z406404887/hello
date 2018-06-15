@@ -32,7 +32,7 @@ func sendToClient(gate *Gateway, msg *network.Message){
 		if recv, ok := gate.traceTime[msg.Head.ClientId]; ok {
 			now := time.Now().UnixNano()
 			diff := (now - recv)/1e6
-			log.Printf("track %d %d %d",recv/1e6, now/1e6,diff)
+			log.Printf("track %d %d %d %d",msg.Head.ClientId,recv/1e6, now/1e6,diff)
 		}
 	}
 
