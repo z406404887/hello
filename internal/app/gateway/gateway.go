@@ -4,9 +4,8 @@ import (
 	"context"
 	"github.com/gorilla/websocket"
 	"google.golang.org/grpc"
-	"hello/network"
-	"hello/pb/pbgame"
-	"hello/util"
+	"hello/internal/pkg/network"
+	"hello/internal/pkg/pb/pbgame"
 	"log"
 	"net/http"
 	"runtime"
@@ -155,12 +154,12 @@ func (gate *Gateway) handleConnMsg(msg *network.Message) {
 }
 
 func (gate *Gateway) onNewServerConnected(srv *network.WsClient) {
-	id := util.GetIdentity(srv.Id, srv.Type)
+	id := network.GetIdentity(srv.Id, srv.Type)
 	log.Printf("server connected.id = %d", srv.Id)
 	switch srv.Type {
-	case util.ServerTypeGame:
+	case network.ServerTypeGame:
 		gate.gameMap[id] = srv
-	case util.ServerTypeState:
+	case network.ServerTypeState:
 		if gate.stateSrv != nil {
 			close(gate.stateSrv.SendChan)
 			gate.stateSrv = srv
@@ -171,7 +170,7 @@ func (gate *Gateway) onNewServerConnected(srv *network.WsClient) {
 }
 
 func (gate *Gateway) onServerDisconnected(srv *network.WsClient) {
-	id := util.GetIdentity(srv.Id, srv.Type)
+	id := network.GetIdentity(srv.Id, srv.Type)
 	delete(gate.gameMap, id)
 
 	//重新连接

@@ -1,8 +1,8 @@
 package gateway
 
 import (
-	"hello/network"
-	"hello/pb/pbgame"
+	"hello/internal/pkg/network"
+	"hello/internal/pkg/pb/pbgame"
 	"log"
 	"time"
 )

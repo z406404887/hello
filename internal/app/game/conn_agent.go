@@ -3,8 +3,8 @@ package game
 import (
 	"github.com/golang/protobuf/proto"
 	"github.com/gorilla/websocket"
-	"hello/network"
-	"hello/pb/pbgame"
+	"hello/internal/pkg/network"
+	"hello/internal/pkg/pb/pbgame"
 	"log"
 )
 

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"hello/robot"
+	"hello/internal/app/robot"
 	"log"
 	"os"
 	"sync"

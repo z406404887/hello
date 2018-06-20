@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"hello/gateway"
+	"hello/internal/app/gateway"
 	"log"
 	"os"
 )

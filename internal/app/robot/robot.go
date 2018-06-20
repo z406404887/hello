@@ -2,7 +2,7 @@ package robot
 
 import (
 	"github.com/golang/protobuf/proto"
-	"hello/network"
+	"hello/internal/pkg/network"
 	"log"
 )
 

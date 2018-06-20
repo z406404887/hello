@@ -2,8 +2,8 @@ package gateway
 
 import (
 	"github.com/golang/protobuf/proto"
-	"hello/network"
-	"hello/pb/pbgame"
+	"hello/internal/pkg/network"
+	"hello/internal/pkg/pb/pbgame"
 	"log"
 	"time"
 )

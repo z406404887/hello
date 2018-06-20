@@ -4,10 +4,10 @@ import (
 	"errors"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	"hello/pb/pbgame"
-	"hello/util"
+	"hello/internal/pkg/network"
 	"log"
 	"net"
+	"hello/internal/pkg/pb/pbgame"
 )
 
 type Manager struct {
@@ -47,7 +47,7 @@ func (mgr *Manager) GetServerList(ctx context.Context, req *pbgame.ServerListReq
 
 	rsp := &pbgame.ServerListRsp{}
 	switch req.Server.Type {
-	case util.ServerTypeGate:
+	case network.ServerTypeGate:
 		mgr.SetServerListForGate(rsp)
 		return rsp, nil
 	default:
@@ -58,7 +58,7 @@ func (mgr *Manager) GetServerList(ctx context.Context, req *pbgame.ServerListReq
 
 func (mgr *Manager) SetServerListForGate(rsp *pbgame.ServerListRsp) {
 	for _, s := range mgr.cfg.Servers {
-		if s.Type == util.ServerTypeGame || s.Type == util.ServerTypeState {
+		if s.Type == network.ServerTypeGame || s.Type == network.ServerTypeState {
 			srv := &pbgame.Server{
 				Id:   uint32(s.Id),
 				Type: uint32(s.Type),

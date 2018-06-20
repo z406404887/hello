@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"hello/login"
+	"hello/internal/app/login"
 	"log"
 )
 

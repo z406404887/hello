@@ -1,7 +1,7 @@
 package state
 
 import (
-	"network"
+	"hello/internal/pkg/network"
 	"log"
 	"github.com/gorilla/websocket"
 	"github.com/golang/protobuf/proto"

@@ -1,4 +1,4 @@
-package util
+package network
 
 func GetIdentity(id uint16,stype uint16) uint32 {
 	rsl := uint32(stype)

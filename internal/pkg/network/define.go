@@ -1,4 +1,4 @@
-package util
+package network
 
 const (
 	ServerTypeManager = 1

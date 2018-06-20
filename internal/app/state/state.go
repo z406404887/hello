@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"github.com/gorilla/websocket"
 	"log"
-	"network"
+	"hello/internal/pkg/network"
 	"fmt"
 	"runtime"
 	"sync"

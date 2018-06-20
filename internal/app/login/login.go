@@ -6,7 +6,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	"hello/pb/pbgame"
+	"hello/internal/pkg/pb/pbgame"
 	"log"
 	"net"
 )

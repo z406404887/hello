@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/gorilla/websocket"
 	"google.golang.org/grpc"
-	"hello/network"
+	"hello/internal/pkg/network"
 	"log"
 	"net/http"
 	"runtime"

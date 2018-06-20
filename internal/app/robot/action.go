@@ -1,7 +1,7 @@
 package robot
 
 import (
-	"hello/pb/pbgame"
+	"hello/internal/pkg/pb/pbgame"
 )
 
 func Login(robot *Robot) {

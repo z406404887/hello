@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"hello/game"
+	"hello/internal/app/game"
 	"log"
 	"os"
 )

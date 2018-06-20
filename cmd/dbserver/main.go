@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"hello/db"
+	"hello/internal/app/db"
 	"log"
 	"os"
 )
