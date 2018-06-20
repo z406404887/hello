@@ -8,3 +8,4 @@ src/golang.org/
 src/google.golang.org/
 
 *.a
+*.log
