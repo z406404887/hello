@@ -2,7 +2,6 @@ package network
 
 import (
 	"github.com/gorilla/websocket"
-	"hello/util"
 	"log"
 	"time"
 )
@@ -25,7 +24,7 @@ func NewWsClient(id uint16, stype uint16, srv string) *WsClient {
 		SendChan: make(chan []byte, 5000),
 		RecvChan: make(chan []byte, 5000),
 	}
-	c.Sid = util.GetIdentity(c.Id, c.Type)
+	c.Sid = GetIdentity(c.Id, c.Type)
 	conn, err := c.dial()
 	if err != nil {
 		log.Printf("dial error, %v", err)
