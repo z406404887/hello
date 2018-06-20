@@ -1,9 +1,9 @@
 package main
 
 import (
-	"log"
-	"login"
 	"flag"
+	"hello/login"
+	"log"
 )
 
 func main() {
@@ -18,9 +18,9 @@ func main() {
 		return
 	}
 
-	login,err := login.NewLogin(path)
-	if err != nil{
-		log.Printf("create login failed. %v",err)
+	login, err := login.NewLogin(path)
+	if err != nil {
+		log.Printf("create login failed. %v", err)
 		return
 	}
 	login.Run()

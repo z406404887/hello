@@ -3,10 +3,10 @@ package game
 import (
 	"context"
 	"github.com/golang/protobuf/proto"
+	"hello/network"
+	"hello/pb/pbgame"
 	"log"
 	"math/rand"
-	"network"
-	"pb/pbgame"
 	"time"
 )
 

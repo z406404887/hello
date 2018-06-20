@@ -4,14 +4,14 @@ import (
 	"context"
 	"github.com/gorilla/websocket"
 	"google.golang.org/grpc"
+	"hello/network"
+	"hello/pb/pbgame"
+	"hello/util"
 	"log"
 	"net/http"
-	"network"
-	"pb/pbgame"
 	"runtime"
 	"sync"
 	"time"
-	"util"
 )
 
 type Gateway struct {

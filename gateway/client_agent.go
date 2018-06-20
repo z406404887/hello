@@ -1,8 +1,8 @@
 package gateway
 
 import (
+	"hello/network"
 	"log"
-	"network"
 )
 
 type ClientAgent struct {

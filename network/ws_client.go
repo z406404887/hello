@@ -1,9 +1,10 @@
 package network
+
 import (
 	"github.com/gorilla/websocket"
-	"time"
+	"hello/util"
 	"log"
-	"util"
+	"time"
 )
 
 type WsClient struct {
@@ -13,25 +14,25 @@ type WsClient struct {
 	conn     *websocket.Conn
 	SendChan chan []byte
 	RecvChan chan []byte
-	Sid uint32
+	Sid      uint32
 }
 
-func NewWsClient(id uint16, stype uint16, srv string) *WsClient  {
+func NewWsClient(id uint16, stype uint16, srv string) *WsClient {
 	c := &WsClient{
-		Id:                id,
-		Type:              stype,
-		SrvAddr:           srv,
-		SendChan:make(chan []byte, 5000),
-		RecvChan:make(chan []byte, 5000),
+		Id:       id,
+		Type:     stype,
+		SrvAddr:  srv,
+		SendChan: make(chan []byte, 5000),
+		RecvChan: make(chan []byte, 5000),
 	}
-	c.Sid = util.GetIdentity(c.Id,c.Type)
+	c.Sid = util.GetIdentity(c.Id, c.Type)
 	conn, err := c.dial()
 	if err != nil {
-		log.Printf("dial error, %v",err)
-		return nil;
+		log.Printf("dial error, %v", err)
+		return nil
 	}
 
-	log.Printf("server connected. %s",c.SrvAddr)
+	log.Printf("server connected. %s", c.SrvAddr)
 	c.conn = conn
 	go c.readPump()
 	go c.writePump()
@@ -39,14 +40,14 @@ func NewWsClient(id uint16, stype uint16, srv string) *WsClient  {
 	return c
 }
 
-func (client *WsClient) dial() (*websocket.Conn,error)  {
+func (client *WsClient) dial() (*websocket.Conn, error) {
 	for {
-		conn, _, err := websocket.DefaultDialer.Dial(client.SrvAddr,nil)
+		conn, _, err := websocket.DefaultDialer.Dial(client.SrvAddr, nil)
 		if err == nil {
-			return conn,nil
+			return conn, nil
 		}
 
-		log.Printf("establish connection failed. %v",err)
+		log.Printf("establish connection failed. %v", err)
 		time.Sleep(3 * time.Second)
 	}
 }
@@ -72,7 +73,6 @@ func (c *WsClient) readPump() {
 		c.RecvChan <- message
 	}
 }
-
 
 func (c *WsClient) writePump() {
 	ticker := time.NewTicker(PingPeriod)

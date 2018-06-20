@@ -1,19 +1,19 @@
 package robot
 
 import (
-	"pb/pbgame"
+	"hello/pb/pbgame"
 )
 
-func Login(robot* Robot)  {
+func Login(robot *Robot) {
 	req := &pbgame.LoginRequest{
-		Account:robot.account,
-		Password:robot.password,
+		Account:  robot.account,
+		Password: robot.password,
 	}
 
-	robot.SendMsg(pbgame.MainAccount,pbgame.SubLoginReq,req)
+	robot.SendMsg(pbgame.MainAccount, pbgame.SubLoginReq, req)
 }
 
-func Rolll(robot *Robot)  {
+func Rolll(robot *Robot) {
 	req := &pbgame.RollRequest{}
-	robot.SendMsg(pbgame.MainGame,pbgame.SubRollReq,req)
+	robot.SendMsg(pbgame.MainGame, pbgame.SubRollReq, req)
 }

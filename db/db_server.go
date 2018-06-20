@@ -6,9 +6,9 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"google.golang.org/grpc"
+	"hello/pb/pbgame"
 	"log"
 	"net"
-	"pb/pbgame"
 	"time"
 )
 

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"manager"
-	"log"
 	"flag"
+	"hello/manager"
+	"log"
 )
 
 func main() {
@@ -19,7 +19,7 @@ func main() {
 	}
 	mgr, err := manager.NewManager(path)
 	if err != nil {
-		log.Printf("create manager failed. %v",err)
+		log.Printf("create manager failed. %v", err)
 		return
 	}
 

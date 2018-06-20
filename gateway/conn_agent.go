@@ -2,9 +2,9 @@ package gateway
 
 import (
 	"github.com/gorilla/websocket"
+	"hello/network"
+	"hello/pb/pbgame"
 	"log"
-	"network"
-	"pb/pbgame"
 )
 
 type ConnAgent struct {

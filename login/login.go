@@ -1,19 +1,19 @@
 package login
 
 import (
+	"database/sql"
+	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc"
+	"hello/pb/pbgame"
 	"log"
 	"net"
-	"google.golang.org/grpc"
-	"pb/pbgame"
-	"fmt"
-	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
 )
 
 type Login struct {
 	cfg *Configuration
-	db *sql.DB
+	db  *sql.DB
 }
 
 func NewLogin(path string) (*Login, error) {
@@ -26,12 +26,12 @@ func NewLogin(path string) (*Login, error) {
 		cfg: cfg,
 	}
 
-	strConn := fmt.Sprintf("%s:%s@%s(%s)/%s",cfg.Db.User,cfg.Db.Password,cfg.Db.Protocol,cfg.Db.Address,cfg.Db.DbName)
+	strConn := fmt.Sprintf("%s:%s@%s(%s)/%s", cfg.Db.User, cfg.Db.Password, cfg.Db.Protocol, cfg.Db.Address, cfg.Db.DbName)
 
-	login.db, err = sql.Open(cfg.Db.Driver,strConn)
+	login.db, err = sql.Open(cfg.Db.Driver, strConn)
 
-	if err != nil{
-		return  nil ,err
+	if err != nil {
+		return nil, err
 	}
 
 	return login, nil
@@ -53,21 +53,21 @@ func (login *Login) Login(ctx context.Context, req *pbgame.LoginRequest) (*pbgam
 	//TODO check request
 
 	rsp := &pbgame.LoginResponse{}
-	login.doLogin(req,rsp)
-	return rsp,nil
+	login.doLogin(req, rsp)
+	return rsp, nil
 }
 
 func (login *Login) doLogin(req *pbgame.LoginRequest, rsp *pbgame.LoginResponse) {
 	tx, err := login.db.Begin()
 	if err != nil {
-		log.Printf("create transaction failed. %v",err)
+		log.Printf("create transaction failed. %v", err)
 		rsp.ErrorCode = pbgame.ErrorCode_MYSQL_ERROR
 		return
 	}
 
-	query ,err := tx.Prepare("select password from account where account=?")
+	query, err := tx.Prepare("select password from account where account=?")
 	if err != nil {
-		log.Printf("prepare sql failed. %v",err)
+		log.Printf("prepare sql failed. %v", err)
 		rsp.ErrorCode = pbgame.ErrorCode_MYSQL_ERROR
 		tx.Rollback()
 		return
@@ -78,20 +78,20 @@ func (login *Login) doLogin(req *pbgame.LoginRequest, rsp *pbgame.LoginResponse)
 	err = query.QueryRow(req.Account).Scan(password)
 
 	//do register
-	if err != nil{
-		ins ,err := tx.Prepare("insert into account(`account`,`password`) values(?,?)")
+	if err != nil {
+		ins, err := tx.Prepare("insert into account(`account`,`password`) values(?,?)")
 		if err != nil {
-			log.Printf("tx prepared faield. %v",err)
+			log.Printf("tx prepared faield. %v", err)
 			rsp.ErrorCode = pbgame.ErrorCode_MYSQL_ERROR
 			tx.Rollback()
 			return
 		}
 
-		ins.Exec(req.Account,req.Password)
+		ins.Exec(req.Account, req.Password)
 
 		err = tx.Commit()
 		if err != nil {
-			log.Printf("tx commit error. %v",err)
+			log.Printf("tx commit error. %v", err)
 			rsp.ErrorCode = pbgame.ErrorCode_MYSQL_ERROR
 			return
 		}
@@ -108,6 +108,3 @@ func (login *Login) doLogin(req *pbgame.LoginRequest, rsp *pbgame.LoginResponse)
 
 	rsp.ErrorCode = pbgame.ErrorCode_SUCCESS
 }
-
-
-

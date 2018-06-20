@@ -1,9 +1,9 @@
 package gateway
 
 import (
+	"hello/network"
+	"hello/pb/pbgame"
 	"log"
-	"network"
-	"pb/pbgame"
 	"time"
 )
 

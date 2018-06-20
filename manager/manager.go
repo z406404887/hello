@@ -1,13 +1,13 @@
 package manager
 
 import (
-	"golang.org/x/net/context"
-	"pb/pbgame"
-	"log"
 	"errors"
-	"net"
+	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	"util"
+	"hello/pb/pbgame"
+	"hello/util"
+	"log"
+	"net"
 )
 
 type Manager struct {
@@ -29,7 +29,7 @@ func NewManager(path string) (*Manager, error) {
 
 func (mgr *Manager) Run() {
 	lis, err := net.Listen("tcp", mgr.cfg.Addr)
-	log.Printf("manager listen at %s",mgr.cfg.Addr)
+	log.Printf("manager listen at %s", mgr.cfg.Addr)
 	if err != nil {
 		log.Fatalf("failed to listen at %s. %v", mgr.cfg.Addr, err)
 	}
@@ -40,7 +40,7 @@ func (mgr *Manager) Run() {
 }
 
 func (mgr *Manager) GetServerList(ctx context.Context, req *pbgame.ServerListReq) (*pbgame.ServerListRsp, error) {
-	log.Printf("receive GetServerList request %v",req)
+	log.Printf("receive GetServerList request %v", req)
 	if req.Token != mgr.cfg.Token {
 		return nil, errors.New("invalid token")
 	}

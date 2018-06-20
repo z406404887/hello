@@ -3,9 +3,9 @@ package gateway
 import (
 	"context"
 	"github.com/golang/protobuf/proto"
+	"hello/network"
+	"hello/pb/pbgame"
 	"log"
-	"network"
-	"pb/pbgame"
 	"time"
 )
 
