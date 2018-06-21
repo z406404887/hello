@@ -11,6 +11,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"google.golang.org/grpc"
+	"hello/internal/pkg/util"
 )
 
 type DbServer struct {
@@ -116,8 +117,7 @@ func (srv *DbServer) CreatePlayer(context context.Context, req *pbgame.CreatePla
 		rsp.Result = pbgame.ErrorCode_MYSQL_ERROR
 		return rsp, err
 	}
-
-	defer query.Close()
+	defer util.Close(query)
 
 	var id uint32
 	err = query.QueryRow(req.Account).Scan(&id)
@@ -133,7 +133,7 @@ func (srv *DbServer) CreatePlayer(context context.Context, req *pbgame.CreatePla
 		rsp.Result = pbgame.ErrorCode_MYSQL_ERROR
 		return rsp, err
 	}
-	defer ins.Close()
+	defer util.Close(ins)
 	result, err := ins.Exec(req.Account, req.Name, req.Money)
 
 	if err != nil {

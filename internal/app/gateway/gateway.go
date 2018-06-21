@@ -256,7 +256,7 @@ func (gate *Gateway) doWork() {
 			gate.handleServerMsg(msg)
 		case err := <-gate.errChan:
 			log.Printf("server error %v \n", err)
-			break
+			return
 		}
 	}
 }

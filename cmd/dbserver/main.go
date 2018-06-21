@@ -37,5 +37,7 @@ func main() {
 		log.Printf("create db server failed. %v", err)
 		return
 	}
-	srv.Run()
+	if err = srv.Run(); err != nil {
+		log.Fatalf("fatal error, exiting.%v",err)
+	}
 }
