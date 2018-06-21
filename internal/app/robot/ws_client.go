@@ -64,7 +64,7 @@ func (c *WsClient) readPump() {
 		_, message, err := c.conn.ReadMessage()
 
 		if err != nil {
-			log.Println(err)
+			log.Fatalf("read msg failed. %v",err)
 			break
 		}
 		c.RecvChan <- message

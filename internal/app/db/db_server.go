@@ -96,11 +96,6 @@ func (srv *DbServer) SavePlayer(context context.Context, req *pbgame.SaveRequest
 func (srv *DbServer) CreatePlayer(context context.Context, req *pbgame.CreatePlayerRequest) (*pbgame.CreatePlayerResponse, error) {
 	rsp := &pbgame.CreatePlayerResponse{}
 	tx, err := srv.db.Begin()
-	defer func() {
-		if err := tx.Commit(); err != nil {
-			log.Fatalf("commit transaction failed. %v", err)
-		}
-	}()
 	if err != nil {
 		rsp.Result = pbgame.ErrorCode_MYSQL_ERROR
 		return rsp, err
@@ -142,6 +137,9 @@ func (srv *DbServer) CreatePlayer(context context.Context, req *pbgame.CreatePla
 		return rsp, err
 	}
 
+	if err := tx.Commit(); err != nil {
+		log.Fatalf("commit transaction failed. %v", err)
+	}
 	rsp.Result = pbgame.ErrorCode_SUCCESS
 	rsp.Uid = uint32(uid)
 	return rsp, nil
