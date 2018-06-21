@@ -14,7 +14,12 @@ func main() {
 		return
 	}
 
-	defer f.Close()
+	defer func() {
+		err := f.Close()
+		if err != nil {
+			log.Printf("close file failed. %v",err)
+		}
+	}()
 	log.SetOutput(f)
 
 	var path string

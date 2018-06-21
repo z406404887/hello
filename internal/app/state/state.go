@@ -91,7 +91,7 @@ func (srv *StateServer) doWork() {
 			srv.onClose()
 		case err := <-srv.errChan:
 			log.Printf("server error %v \n", err)
-			break
+			return
 		}
 	}
 }

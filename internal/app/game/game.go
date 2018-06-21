@@ -95,19 +95,19 @@ func (game *Game) Run() {
 	game.doWork()
 }
 
-func (game *Game) doWork() {
+func (gate *Game) doWork() {
 	for {
 		select {
-		case conn := <-game.regConn:
-			game.onNewWsConn(conn)
-		case conn := <-game.unRegConn:
-			game.onCloseConn(conn)
+		case conn := <-gate.regConn:
+			gate.onNewWsConn(conn)
+		case conn := <-gate.unRegConn:
+			gate.onCloseConn(conn)
 			close(conn.SendChan)
-		case msg := <-game.recvConnMsg:
-			game.handleConnMsg(msg)
-		case <-game.closeChan:
-			game.onClose()
-		case err := <-game.errChan:
+		case msg := <-gate.recvConnMsg:
+			gate.handleConnMsg(msg)
+		case <-gate.closeChan:
+			gate.onClose()
+		case err := <-gate.errChan:
 			log.Printf("server error %v \n", err)
 			return 
 		}

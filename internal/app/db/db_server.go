@@ -40,7 +40,7 @@ func NewDbServer(path string) (*DbServer, error) {
 	return srv, nil
 }
 
-func (db *DbServer) Run() {
+func (db *DbServer) Run() error {
 	log.Printf("configuration %v", db.cfg)
 	lis, err := net.Listen("tcp", db.cfg.Addr)
 	if err != nil {
@@ -48,7 +48,7 @@ func (db *DbServer) Run() {
 	}
 	grpcServer := grpc.NewServer()
 	pbgame.RegisterDBServer(grpcServer, db)
-	grpcServer.Serve(lis)
+	return grpcServer.Serve(lis)
 }
 
 func (srv *DbServer) LoadPlayer(context context.Context, req *pbgame.LoadRequest) (*pbgame.LoadResponse, error) {
@@ -58,7 +58,12 @@ func (srv *DbServer) LoadPlayer(context context.Context, req *pbgame.LoadRequest
 		rsp.Result = pbgame.ErrorCode_MYSQL_ERROR
 		return rsp, err
 	}
-	defer query.Close()
+	defer func() {
+		 err := query.Close()
+		 if err != nil {
+		 	log.Fatalf("query close failed. %v",err)
+		 }
+	}()
 
 	err = query.QueryRow(req.Account).Scan(&rsp.Uid, &rsp.Name, &rsp.Money)
 	if err != nil {
@@ -77,7 +82,11 @@ func (srv *DbServer) SavePlayer(context context.Context, req *pbgame.SaveRequest
 		rsp.Result = pbgame.ErrorCode_MYSQL_ERROR
 		return rsp, err
 	}
-	defer update.Close()
+	defer func() {
+		 if err := update.Close() ; err != nil {
+		 	log.Fatalf("query close failed. %v",err)
+		 }
+	}()
 	_, err = update.Exec(req.Money, req.Uid)
 	if err != nil {
 		rsp.Result = pbgame.ErrorCode_MYSQL_ERROR
@@ -92,7 +101,11 @@ func (srv *DbServer) SavePlayer(context context.Context, req *pbgame.SaveRequest
 func (srv *DbServer) CreatePlayer(context context.Context, req *pbgame.CreatePlayerRequest) (*pbgame.CreatePlayerResponse, error) {
 	rsp := &pbgame.CreatePlayerResponse{}
 	tx, err := srv.db.Begin()
-	defer tx.Commit()
+	defer func() {
+		if err := tx.Commit(); err != nil{
+			log.Fatalf("commit transaction failed. %v",err)
+		}
+	}()
 	if err != nil {
 		rsp.Result = pbgame.ErrorCode_MYSQL_ERROR
 		return rsp, err
