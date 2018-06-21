@@ -41,7 +41,7 @@ func (robot *Robot) doRun() bool {
 	for msg := range robot.ws.RecvChan {
 		handleMsg(robot, msg)
 	}
-	log.Printf("connection read closed, %s exit. msg=%v", robot.account, msg)
+	log.Printf("connection read closed, %s exit.", robot.account)
 	close(robot.ws.SendChan)
 	return false
 }
