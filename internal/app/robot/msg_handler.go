@@ -74,11 +74,9 @@ func handleRollResponse(robot *Robot, heaer *network.CommonHeader, data []byte) 
 	robot.Money += rsp.Win
 
 	ticker := time.After(5 * time.Second)
-	select {
-	case <-ticker:
-		log.Printf("let's fight again!")
-		Rolll(robot)
-	}
+	<-ticker
+	log.Printf("let's fight again!")
+	Rolll(robot)
 }
 
 func handleEnterGameMsg(robot *Robot, header *network.CommonHeader, data []byte) {

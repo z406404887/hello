@@ -25,16 +25,8 @@ func (agent *ClientAgent) Run() {
 		agent.gate.unRegSrv <- agent.client
 	}()
 
-	for {
-		select {
-		case msg, ok := <-agent.client.RecvChan:
-			//client has been closed
-			if !ok {
-				return
-			}
-			//log.Printf("recv server msg %v",msg)
-			agent.handleMsg(msg)
-		}
+	for msg := range agent.client.RecvChan {
+		agent.handleMsg(msg)
 	}
 }
 

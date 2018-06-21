@@ -38,17 +38,12 @@ func (robot *Robot) Run() {
 func (robot *Robot) doRun() bool {
 	robot.ws = NewWsClient(robot.srvAddr)
 	Login(robot)
-	for {
-		select {
-		case msg, ok := <-robot.ws.RecvChan:
-			if !ok {
-				log.Printf("connection read closed, %s exit. msg=%v", robot.account, msg)
-				close(robot.ws.SendChan)
-				return false
-			}
-			handleMsg(robot, msg)
-		}
+	for msg := range robot.ws.RecvChan {
+		handleMsg(robot, msg)
 	}
+	log.Printf("connection read closed, %s exit. msg=%v", robot.account, msg)
+	close(robot.ws.SendChan)
+	return false
 }
 
 func (robot *Robot) SendMsg(main uint8, sub uint8, msg proto.Message) {
