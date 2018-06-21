@@ -48,6 +48,24 @@ func (client *WsClient) dial() (*websocket.Conn, error) {
 	}
 }
 
+func (c *WsClient) setReadDeadline(d time.Time) {
+	if err := c.conn.SetReadDeadline(d); err != nil {
+		log.Fatalf("connection SetReadDeadline failed. %v", err)
+	}
+}
+
+func (c *WsClient) setWriteDeadline(d time.Time) {
+	if err := c.conn.SetReadDeadline(d); err != nil {
+		log.Fatalf("connection SetWriteDeadline failed. %v", err)
+	}
+}
+
+func (c *WsClient) writeMessage(messageType int, data []byte) {
+	if err := c.conn.WriteMessage(messageType, data); err != nil {
+		log.Fatalf("write msg failed. messageType=%d, %v", messageType, err)
+	}
+}
+
 func (c *WsClient) readPump() {
 	defer func() {
 		util.Close(c.conn)
@@ -55,11 +73,9 @@ func (c *WsClient) readPump() {
 	}()
 
 	//c.ws.SetReadLimit(maxMessageSize)
-	if err := c.conn.SetReadDeadline(time.Now().Add(PongWait)); err != nil {
-		log.Fatalf("connection SetReadline failed. %v", err)
-	}
+	c.setReadDeadline(time.Now().Add(PongWait))
 
-	c.conn.SetPongHandler(func(string) error { c.conn.SetReadDeadline(time.Now().Add(PongWait)); return nil })
+	c.conn.SetPongHandler(func(string) error { c.setReadDeadline(time.Now().Add(PongWait)); return nil })
 	for {
 		_, message, err := c.conn.ReadMessage()
 
@@ -79,19 +95,11 @@ func (c *WsClient) writePump() {
 	for {
 		select {
 		case message, ok := <-c.SendChan:
-			//log.Printf("pending send msg %v",message)
-			if err := c.conn.SetWriteDeadline(time.Now().Add(WriteWait)); err != nil {
-				log.Fatalf("SetWriteDeadline failed. %v", err)
-			}
-
+			c.setWriteDeadline(time.Now().Add(WriteWait))
 			if !ok {
-				if err := c.conn.SetWriteDeadline(time.Now().Add(WriteWait)); err != nil {
-					log.Fatalf("connection SetWriteDeadline failed. %v", err)
-				}
+				c.setWriteDeadline(time.Now().Add(WriteWait))
 				// The hub closed the channel.
-				if err := c.conn.WriteMessage(websocket.CloseMessage, []byte{}); err != nil {
-					log.Fatalf("connection WriteMessage failed.%v", err)
-				}
+				c.writeMessage(websocket.CloseMessage,[]byte{})
 				return
 			}
 
@@ -117,9 +125,7 @@ func (c *WsClient) writePump() {
 				return
 			}
 		case <-ticker.C:
-			if err := c.conn.SetWriteDeadline(time.Now().Add(WriteWait)); err != nil {
-				log.Fatalf("connection SetWriteDeadline failed. %v", err)
-			}
+			c.setWriteDeadline(time.Now().Add(WriteWait))
 			if err := c.conn.WriteMessage(websocket.PingMessage, nil); err != nil {
 				return
 			}
