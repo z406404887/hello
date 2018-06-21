@@ -1,9 +1,10 @@
 package robot
 
 import (
-	"github.com/golang/protobuf/proto"
 	"hello/internal/pkg/network"
 	"log"
+
+	"github.com/golang/protobuf/proto"
 )
 
 type Robot struct {

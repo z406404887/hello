@@ -4,12 +4,13 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	"google.golang.org/grpc"
 	"hello/internal/pkg/pb/pbgame"
 	"log"
 	"net"
 	"time"
+
+	_ "github.com/go-sql-driver/mysql"
+	"google.golang.org/grpc"
 )
 
 type DbServer struct {

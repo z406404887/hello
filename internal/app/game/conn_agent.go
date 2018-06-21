@@ -1,11 +1,12 @@
 package game
 
 import (
-	"github.com/golang/protobuf/proto"
-	"github.com/gorilla/websocket"
 	"hello/internal/pkg/network"
 	"hello/internal/pkg/pb/pbgame"
 	"log"
+
+	"github.com/golang/protobuf/proto"
+	"github.com/gorilla/websocket"
 )
 
 type ConnAgent struct {

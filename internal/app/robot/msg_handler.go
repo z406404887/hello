@@ -1,11 +1,12 @@
 package robot
 
 import (
-	"github.com/golang/protobuf/proto"
 	"hello/internal/pkg/network"
 	"hello/internal/pkg/pb/pbgame"
 	"log"
 	"time"
+
+	"github.com/golang/protobuf/proto"
 )
 
 func handleMsg(robot *Robot, msg []byte) {

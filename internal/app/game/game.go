@@ -2,13 +2,14 @@ package game
 
 import (
 	"fmt"
-	"github.com/gorilla/websocket"
-	"google.golang.org/grpc"
 	"hello/internal/pkg/network"
 	"log"
 	"net/http"
 	"runtime"
 	"sync"
+
+	"github.com/gorilla/websocket"
+	"google.golang.org/grpc"
 )
 
 type Game struct {

@@ -2,8 +2,6 @@ package gateway
 
 import (
 	"context"
-	"github.com/gorilla/websocket"
-	"google.golang.org/grpc"
 	"hello/internal/pkg/network"
 	"hello/internal/pkg/pb/pbgame"
 	"log"
@@ -11,6 +9,9 @@ import (
 	"runtime"
 	"sync"
 	"time"
+
+	"github.com/gorilla/websocket"
+	"google.golang.org/grpc"
 )
 
 type Gateway struct {

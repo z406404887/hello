@@ -2,11 +2,12 @@ package gateway
 
 import (
 	"context"
-	"github.com/golang/protobuf/proto"
 	"hello/internal/pkg/network"
 	"hello/internal/pkg/pb/pbgame"
 	"log"
 	"time"
+
+	"github.com/golang/protobuf/proto"
 )
 
 func handleAccountMsg(agent *ConnAgent, header *network.CommonHeader, data []byte) bool {

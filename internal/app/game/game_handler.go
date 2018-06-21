@@ -2,12 +2,13 @@ package game
 
 import (
 	"context"
-	"github.com/golang/protobuf/proto"
 	"hello/internal/pkg/network"
 	"hello/internal/pkg/pb/pbgame"
 	"log"
 	"math/rand"
 	"time"
+
+	"github.com/golang/protobuf/proto"
 )
 
 func handleMsg(agent *ConnAgent, header *network.CommonHeader, data []byte) {

@@ -1,7 +1,5 @@
 package game
 
-
-
 type Room struct {
 	playerMap map[uint32]*Player
 }
@@ -12,10 +10,10 @@ func NewRoom() *Room {
 	}
 }
 
-func (room *Room) AddPlayer(player *Player)  {
+func (room *Room) AddPlayer(player *Player) {
 	room.playerMap[player.id] = player
 }
 
-func (room *Room) RemovePlayer(id uint32){
-	delete(room.playerMap,id)
+func (room *Room) RemovePlayer(id uint32) {
+	delete(room.playerMap, id)
 }

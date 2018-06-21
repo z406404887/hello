@@ -2,12 +2,13 @@ package manager
 
 import (
 	"errors"
-	"golang.org/x/net/context"
-	"google.golang.org/grpc"
 	"hello/internal/pkg/network"
+	"hello/internal/pkg/pb/pbgame"
 	"log"
 	"net"
-	"hello/internal/pkg/pb/pbgame"
+
+	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 )
 
 type Manager struct {

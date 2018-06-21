@@ -3,12 +3,13 @@ package login
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	"golang.org/x/net/context"
-	"google.golang.org/grpc"
 	"hello/internal/pkg/pb/pbgame"
 	"log"
 	"net"
+
+	_ "github.com/go-sql-driver/mysql"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 )
 
 type Login struct {

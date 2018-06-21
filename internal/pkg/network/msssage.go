@@ -2,7 +2,6 @@ package network
 
 const (
 	COMMON_HEADER_LENGTH = 10
-
 )
 
 const (
@@ -11,19 +10,19 @@ const (
 
 type CommonHeader struct {
 	MainType uint8
-	SubType uint8
-	Len uint16
+	SubType  uint8
+	Len      uint16
 	ClientId uint32
-	Result uint16
+	Result   uint16
 }
 
-func (header *CommonHeader) Encode() []byte{
+func (header *CommonHeader) Encode() []byte {
 	data := make([]byte, COMMON_HEADER_LENGTH)
 	data[0] = header.MainType
 	data[1] = header.SubType
-	BinaryCoder.PutUint16(data[2:4],header.Len)
-	BinaryCoder.PutUint32(data[4:8],header.ClientId)
-	BinaryCoder.PutUint16(data[8:10],header.Result)
+	BinaryCoder.PutUint16(data[2:4], header.Len)
+	BinaryCoder.PutUint32(data[4:8], header.ClientId)
+	BinaryCoder.PutUint16(data[8:10], header.Result)
 	return data
 }
 
@@ -42,6 +41,6 @@ func (header *CommonHeader) Decode(data []byte) bool {
 
 type Message struct {
 	SrcId uint32
-	Head *CommonHeader
-	Data []byte
+	Head  *CommonHeader
+	Data  []byte
 }
