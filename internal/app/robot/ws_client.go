@@ -4,8 +4,9 @@ import (
 	"log"
 	"time"
 
-	"github.com/gorilla/websocket"
 	"hello/internal/pkg/util"
+
+	"github.com/gorilla/websocket"
 )
 
 type WsClient struct {
@@ -55,7 +56,7 @@ func (c *WsClient) readPump() {
 
 	//c.ws.SetReadLimit(maxMessageSize)
 	if err := c.conn.SetReadDeadline(time.Now().Add(PongWait)); err != nil {
-		log.Fatalf("connection SetReadline failed. %v",err)
+		log.Fatalf("connection SetReadline failed. %v", err)
 	}
 
 	c.conn.SetPongHandler(func(string) error { c.conn.SetReadDeadline(time.Now().Add(PongWait)); return nil })
@@ -79,17 +80,17 @@ func (c *WsClient) writePump() {
 		select {
 		case message, ok := <-c.SendChan:
 			//log.Printf("pending send msg %v",message)
-			if err := c.conn.SetWriteDeadline(time.Now().Add(WriteWait)); err!= nil {
-				log.Fatalf("SetWriteDeadline failed. %v",err)
+			if err := c.conn.SetWriteDeadline(time.Now().Add(WriteWait)); err != nil {
+				log.Fatalf("SetWriteDeadline failed. %v", err)
 			}
 
 			if !ok {
 				if err := c.conn.SetWriteDeadline(time.Now().Add(WriteWait)); err != nil {
-					log.Fatalf("connection SetWriteDeadline failed. %v",err)
+					log.Fatalf("connection SetWriteDeadline failed. %v", err)
 				}
 				// The hub closed the channel.
 				if err := c.conn.WriteMessage(websocket.CloseMessage, []byte{}); err != nil {
-					log.Fatalf("connection WriteMessage failed.%v",err)
+					log.Fatalf("connection WriteMessage failed.%v", err)
 				}
 				return
 			}
@@ -100,14 +101,14 @@ func (c *WsClient) writePump() {
 			}
 
 			if _, err := w.Write(message); err != nil {
-				log.Fatalf("write message failed. %v",err)
+				log.Fatalf("write message failed. %v", err)
 			}
 
 			// Add queued chat messages to the current websocket message.
 			n := len(c.SendChan)
 			for i := 0; i < n; i++ {
 				if _, err := w.Write(<-c.SendChan); err != nil {
-					log.Fatalf("write message failed. %v",err)
+					log.Fatalf("write message failed. %v", err)
 				}
 			}
 
@@ -117,7 +118,7 @@ func (c *WsClient) writePump() {
 			}
 		case <-ticker.C:
 			if err := c.conn.SetWriteDeadline(time.Now().Add(WriteWait)); err != nil {
-				log.Fatalf("connection SetWriteDeadline failed. %v",err)
+				log.Fatalf("connection SetWriteDeadline failed. %v", err)
 			}
 			if err := c.conn.WriteMessage(websocket.PingMessage, nil); err != nil {
 				return

@@ -187,7 +187,7 @@ func (gate *Gateway) onClose() {
 
 }
 
-func (gate *Gateway) Run() error{
+func (gate *Gateway) Run() error {
 	go gate.ServeWs()
 	gate.connectLogin()
 	if err := gate.initServerConnections(); err != nil {

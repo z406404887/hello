@@ -24,7 +24,7 @@ func main() {
 		return
 	}
 	if err = login.Run(); err != nil {
-		log.Fatalf("run login failed. %v",err)
+		log.Fatalf("run login failed. %v", err)
 		return
 	}
 }

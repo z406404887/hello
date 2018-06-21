@@ -5,8 +5,9 @@ import (
 	"net"
 	"time"
 
-	"github.com/gorilla/websocket"
 	"hello/internal/pkg/util"
+
+	"github.com/gorilla/websocket"
 )
 
 type WsConn struct {
@@ -23,21 +24,21 @@ func (ws *WsConn) ReadMsg() (int, []byte, error) {
 	return ws.conn.ReadMessage()
 }
 
-func (c *WsConn) setReadDeadline(d time.Time)  {
+func (c *WsConn) setReadDeadline(d time.Time) {
 	if err := c.conn.SetReadDeadline(d); err != nil {
-		log.Fatalf("connection SetReadDeadline failed. %v",err)
+		log.Fatalf("connection SetReadDeadline failed. %v", err)
 	}
 }
 
-func (c *WsConn) setWriteDeadline(d time.Time)  {
+func (c *WsConn) setWriteDeadline(d time.Time) {
 	if err := c.conn.SetReadDeadline(d); err != nil {
 		log.Fatalf("connection SetWriteDeadline failed. %v", err)
 	}
 }
 
 func (c *WsConn) writeMessage(messageType int, data []byte) {
-	if err := c.conn.WriteMessage(messageType,data); err != nil {
-		log.Fatalf("write msg failed. messageType=%d, %v",messageType,err)
+	if err := c.conn.WriteMessage(messageType, data); err != nil {
+		log.Fatalf("write msg failed. messageType=%d, %v", messageType, err)
 	}
 }
 
@@ -62,14 +63,14 @@ func (ws *WsConn) writePump() {
 			if err != nil {
 				return
 			}
-			if _,err := w.Write(message); err != nil {
-				log.Fatalf("WsConn write msg failed. %v",err)
+			if _, err := w.Write(message); err != nil {
+				log.Fatalf("WsConn write msg failed. %v", err)
 			}
 
 			n := len(ws.SendChan)
 			for i := 0; i < n; i++ {
-				if _,err := w.Write(<-ws.SendChan); err != nil {
-					log.Fatalf("WsConn write msg failed. %v",err)
+				if _, err := w.Write(<-ws.SendChan); err != nil {
+					log.Fatalf("WsConn write msg failed. %v", err)
 				}
 			}
 

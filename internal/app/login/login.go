@@ -7,10 +7,11 @@ import (
 	"log"
 	"net"
 
+	"hello/internal/pkg/util"
+
 	_ "github.com/go-sql-driver/mysql"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	"hello/internal/pkg/util"
 )
 
 type Login struct {
@@ -72,7 +73,7 @@ func (login *Login) doLogin(req *pbgame.LoginRequest, rsp *pbgame.LoginResponse)
 		log.Printf("prepare sql failed. %v", err)
 		rsp.ErrorCode = pbgame.ErrorCode_MYSQL_ERROR
 		if err = tx.Rollback(); err != nil {
-			log.Fatalf("rollback failed.%v",err)
+			log.Fatalf("rollback failed.%v", err)
 		}
 		return
 	}
@@ -88,7 +89,7 @@ func (login *Login) doLogin(req *pbgame.LoginRequest, rsp *pbgame.LoginResponse)
 			log.Fatalf("tx prepared faield. %v", err)
 			rsp.ErrorCode = pbgame.ErrorCode_MYSQL_ERROR
 			if err = tx.Rollback(); err != nil {
-				log.Fatalf("rollback failed.%v",err)
+				log.Fatalf("rollback failed.%v", err)
 			}
 			return
 		}

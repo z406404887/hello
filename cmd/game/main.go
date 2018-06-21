@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"hello/internal/app/game"
+	"hello/internal/pkg/util"
 	"log"
 	"os"
-	"hello/internal/pkg/util"
 )
 
 func main() {

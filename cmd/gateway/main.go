@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"hello/internal/app/gateway"
+	"hello/internal/pkg/util"
 	"log"
 	"os"
-	"hello/internal/pkg/util"
 )
 
 func main() {
@@ -35,7 +35,7 @@ func main() {
 	}
 
 	if err = gate.Run(); err != nil {
-		log.Fatalf("run gateway failed. %v",err)
+		log.Fatalf("run gateway failed. %v", err)
 		return
 	}
 }
