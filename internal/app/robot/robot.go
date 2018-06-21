@@ -48,7 +48,6 @@ func (robot *Robot) doRun() bool {
 			handleMsg(robot, msg)
 		}
 	}
-	return true
 }
 
 func (robot *Robot) SendMsg(main uint8, sub uint8, msg proto.Message) {

@@ -116,6 +116,7 @@ func doEnterGame(agent *ConnAgent, req *pbgame.EnterGameRequest, rsp *pbgame.Ent
 		Money:   10000,
 	}
 	ctx, cancel = context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
 	newRsp, err := agent.dbClient.CreatePlayer(ctx, newReq)
 	if err != nil {
 		return newRsp.Result
