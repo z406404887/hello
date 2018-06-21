@@ -12,6 +12,7 @@ import (
 
 	"github.com/gorilla/websocket"
 	"google.golang.org/grpc"
+	"hello/internal/pkg/util"
 )
 
 type Gateway struct {
@@ -222,7 +223,7 @@ func (gate *Gateway) getServerList() (*pbgame.ServerListRsp, error) {
 		return nil, err
 	}
 	log.Printf("connect to manager %s", gate.cfg.MgrAddr)
-	defer conn.Close()
+	defer util.Close(conn)
 	c := pbgame.NewManagerClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()

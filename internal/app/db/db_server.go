@@ -60,12 +60,8 @@ func (srv *DbServer) LoadPlayer(context context.Context, req *pbgame.LoadRequest
 		rsp.Result = pbgame.ErrorCode_MYSQL_ERROR
 		return rsp, err
 	}
-	defer func() {
-		err := query.Close()
-		if err != nil {
-			log.Fatalf("query close failed. %v", err)
-		}
-	}()
+
+	defer util.Close(query)
 
 	err = query.QueryRow(req.Account).Scan(&rsp.Uid, &rsp.Name, &rsp.Money)
 	if err != nil {
@@ -84,11 +80,8 @@ func (srv *DbServer) SavePlayer(context context.Context, req *pbgame.SaveRequest
 		rsp.Result = pbgame.ErrorCode_MYSQL_ERROR
 		return rsp, err
 	}
-	defer func() {
-		if err := update.Close(); err != nil {
-			log.Fatalf("query close failed. %v", err)
-		}
-	}()
+
+	defer util.Close(update)
 	_, err = update.Exec(req.Money, req.Uid)
 	if err != nil {
 		rsp.Result = pbgame.ErrorCode_MYSQL_ERROR

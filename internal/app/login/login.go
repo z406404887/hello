@@ -94,7 +94,11 @@ func (login *Login) doLogin(req *pbgame.LoginRequest, rsp *pbgame.LoginResponse)
 			return
 		}
 
-		ins.Exec(req.Account, req.Password)
+		if _, err:= ins.Exec(req.Account, req.Password); err != nil {
+			log.Printf("tx exec error. %v", err)
+			rsp.ErrorCode = pbgame.ErrorCode_MYSQL_ERROR
+			return
+		}
 
 		err = tx.Commit()
 		if err != nil {

@@ -91,14 +91,14 @@ func NewWsConn(id uint32, conn *websocket.Conn, sendChanSize int) *WsConn {
 		sendChanSize = DefaultSendChanSize
 	}
 
-	conn.SetReadDeadline(time.Now().Add(PongWait))
-	conn.SetPongHandler(func(string) error { conn.SetReadDeadline(time.Now().Add(PongWait)); return nil })
 	ws := &WsConn{
 		Id:       id,
 		SendChan: make(chan []byte, sendChanSize),
 		conn:     conn,
 	}
 
+	ws.setReadDeadline(time.Now().Add(PongWait))
+	conn.SetPongHandler(func(string) error { ws.setReadDeadline(time.Now().Add(PongWait)); return nil })
 	go ws.writePump()
 	return ws
 }

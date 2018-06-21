@@ -132,7 +132,7 @@ func (c *WsClient) writePump() {
 				return
 			}
 		case <-ticker.C:
-			c.conn.SetWriteDeadline(time.Now().Add(WriteWait))
+			c.setWriteDeadline(time.Now().Add(WriteWait))
 			if err := c.conn.WriteMessage(websocket.PingMessage, nil); err != nil {
 				return
 			}
