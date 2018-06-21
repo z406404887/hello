@@ -86,12 +86,12 @@ func (gate *Gateway) GetGameClientById(id uint32) *network.WsClient {
 }
 
 func (gate *Gateway) GetGameClient() *network.WsClient {
-	len := len(gate.gameMap)
-	if len == 0 {
+	count := len(gate.gameMap)
+	if count == 0 {
 		return nil
 	}
 
-	mark := gate.curGameIdx % uint32(len)
+	mark := gate.curGameIdx % uint32(count)
 
 	var i uint32 = 0
 	for _, cli := range gate.gameMap {

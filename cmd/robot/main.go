@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func RunRobot(wg sync.WaitGroup, i int) {
+func RunRobot(wg *sync.WaitGroup, i int) {
 	defer wg.Done()
 	id := fmt.Sprintf("%s-%05d", "robot", i)
 	bot := robot.NewRobot(id, "123456", "ws://47.98.100.204:11000")
@@ -30,7 +30,7 @@ func main() {
 	for i := 0; i < 500; i++ {
 		time.Sleep(500 * time.Millisecond)
 		wg.Add(1)
-		go RunRobot(wg, i)
+		go RunRobot(&wg, i)
 	}
 	wg.Wait()
 }

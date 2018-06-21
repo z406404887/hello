@@ -67,7 +67,6 @@ func (agent *ConnAgent) handleMsg(header *network.CommonHeader, data []byte) boo
 	default:
 		return false
 	}
-	return true
 }
 
 func (agent *ConnAgent) sendMsgBack(header *network.CommonHeader, data []byte) {

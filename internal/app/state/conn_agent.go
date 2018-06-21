@@ -46,7 +46,6 @@ func (agent *ConnAgent) handleMsg(data []byte){
 	header.Decode(data)
 	log.Printf("receive msg. header=%+v",header)
 
-	handleMsg(agent,header,data[network.COMMON_HEADER_LENGTH:])
 }
 
 func (agent *ConnAgent) sendMsgBack(header *network.CommonHeader, pb proto.Message)  {
