@@ -8,8 +8,8 @@ type closer interface {
 	Close() error
 }
 
-func Close(closer Closer) {
-	err := closer.Close()
+func Close(c closer) {
+	err := c.Close()
 	if err != nil {
 		log.Fatal("close stmt failed. %v", err)
 	}
