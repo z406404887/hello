@@ -23,5 +23,7 @@ func main() {
 		return
 	}
 
-	mgr.Run()
+	if err = mgr.Run(); err!= nil{
+		log.Fatalf("run manager failed.%v",err)
+	}
 }

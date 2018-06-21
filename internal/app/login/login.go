@@ -10,6 +10,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	"hello/internal/pkg/util"
 )
 
 type Login struct {
@@ -38,7 +39,7 @@ func NewLogin(path string) (*Login, error) {
 	return login, nil
 }
 
-func (login *Login) Run() {
+func (login *Login) Run() error {
 	log.Printf("configuration %v", login.cfg)
 	lis, err := net.Listen("tcp", login.cfg.Addr)
 	if err != nil {
@@ -47,7 +48,7 @@ func (login *Login) Run() {
 
 	grpcServer := grpc.NewServer()
 	pbgame.RegisterLoginServer(grpcServer, login)
-	grpcServer.Serve(lis)
+	return grpcServer.Serve(lis)
 }
 
 func (login *Login) Login(ctx context.Context, req *pbgame.LoginRequest) (*pbgame.LoginResponse, error) {
@@ -70,10 +71,12 @@ func (login *Login) doLogin(req *pbgame.LoginRequest, rsp *pbgame.LoginResponse)
 	if err != nil {
 		log.Printf("prepare sql failed. %v", err)
 		rsp.ErrorCode = pbgame.ErrorCode_MYSQL_ERROR
-		tx.Rollback()
+		if err = tx.Rollback(); err != nil {
+			log.Fatalf("rollback failed.%v",err)
+		}
 		return
 	}
-	defer query.Close()
+	defer util.Close(query)
 
 	var password string
 	err = query.QueryRow(req.Account).Scan(password)
@@ -82,9 +85,11 @@ func (login *Login) doLogin(req *pbgame.LoginRequest, rsp *pbgame.LoginResponse)
 	if err != nil {
 		ins, err := tx.Prepare("insert into account(`account`,`password`) values(?,?)")
 		if err != nil {
-			log.Printf("tx prepared faield. %v", err)
+			log.Fatalf("tx prepared faield. %v", err)
 			rsp.ErrorCode = pbgame.ErrorCode_MYSQL_ERROR
-			tx.Rollback()
+			if err = tx.Rollback(); err != nil {
+				log.Fatalf("rollback failed.%v",err)
+			}
 			return
 		}
 

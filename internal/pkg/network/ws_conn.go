@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
+	"hello/internal/pkg/util"
 )
 
 type WsConn struct {
@@ -22,20 +23,38 @@ func (ws *WsConn) ReadMsg() (int, []byte, error) {
 	return ws.conn.ReadMessage()
 }
 
+func (c *WsConn) setReadDeadline(d time.Time)  {
+	if err := c.conn.SetReadDeadline(d); err != nil {
+		log.Fatalf("connection SetReadDeadline failed. %v",err)
+	}
+}
+
+func (c *WsConn) setWriteDeadline(d time.Time)  {
+	if err := c.conn.SetReadDeadline(d); err != nil {
+		log.Fatalf("connection SetWriteDeadline failed. %v", err)
+	}
+}
+
+func (c *WsConn) writeMessage(messageType int, data []byte) {
+	if err := c.conn.WriteMessage(messageType,data); err != nil {
+		log.Fatalf("write msg failed. messageType=%d, %v",messageType,err)
+	}
+}
+
 func (ws *WsConn) writePump() {
 	ticker := time.NewTicker(PingPeriod)
 	defer func() {
 		ticker.Stop()
-		ws.conn.Close()
+		util.Close(ws.conn)
 	}()
 
 	for {
 		select {
 		case message, ok := <-ws.SendChan:
 			if !ok {
-				ws.conn.SetWriteDeadline(time.Now().Add(WriteWait))
+				ws.setWriteDeadline(time.Now().Add(WriteWait))
 				//channel has been closed, close the connection
-				ws.conn.WriteMessage(websocket.CloseMessage, []byte{})
+				ws.writeMessage(websocket.CloseMessage, []byte{})
 				return
 			}
 
@@ -43,11 +62,15 @@ func (ws *WsConn) writePump() {
 			if err != nil {
 				return
 			}
-			w.Write(message)
+			if _,err := w.Write(message); err != nil {
+				log.Fatalf("WsConn write msg failed. %v",err)
+			}
 
 			n := len(ws.SendChan)
 			for i := 0; i < n; i++ {
-				w.Write(<-ws.SendChan)
+				if _,err := w.Write(<-ws.SendChan); err != nil {
+					log.Fatalf("WsConn write msg failed. %v",err)
+				}
 			}
 
 			if err := w.Close(); err != nil {

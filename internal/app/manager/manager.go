@@ -28,7 +28,7 @@ func NewManager(path string) (*Manager, error) {
 	return mgr, nil
 }
 
-func (mgr *Manager) Run() {
+func (mgr *Manager) Run() error {
 	lis, err := net.Listen("tcp", mgr.cfg.Addr)
 	log.Printf("manager listen at %s", mgr.cfg.Addr)
 	if err != nil {
@@ -37,7 +37,7 @@ func (mgr *Manager) Run() {
 
 	grpcServer := grpc.NewServer()
 	pbgame.RegisterManagerServer(grpcServer, mgr)
-	grpcServer.Serve(lis)
+	return grpcServer.Serve(lis)
 }
 
 func (mgr *Manager) GetServerList(ctx context.Context, req *pbgame.ServerListReq) (*pbgame.ServerListRsp, error) {

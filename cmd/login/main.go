@@ -23,5 +23,8 @@ func main() {
 		log.Printf("create login failed. %v", err)
 		return
 	}
-	login.Run()
+	if err = login.Run(); err != nil {
+		log.Fatalf("run login failed. %v",err)
+		return
+	}
 }

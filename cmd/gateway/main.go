@@ -5,6 +5,7 @@ import (
 	"hello/internal/app/gateway"
 	"log"
 	"os"
+	"hello/internal/pkg/util"
 )
 
 func main() {
@@ -14,12 +15,7 @@ func main() {
 		return
 	}
 
-	defer func() {
-		err := f.Close()
-		if err != nil {
-			log.Printf("close file failed. %v", err)
-		}
-	}()
+	defer util.Close(f)
 	log.SetOutput(f)
 	var path string
 	flag.StringVar(&path, "config", "", "please give a config path.")
@@ -37,5 +33,9 @@ func main() {
 		log.Printf("create gateway failed. %v", err)
 		return
 	}
-	gate.Run()
+
+	if err = gate.Run(); err != nil {
+		log.Fatalf("run gateway failed. %v",err)
+		return
+	}
 }

@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
+	"hello/internal/pkg/util"
 )
 
 type WsClient struct {
@@ -52,15 +53,28 @@ func (client *WsClient) dial() (*websocket.Conn, error) {
 	}
 }
 
+func (c *WsClient) setReadDeadline(d time.Time)  {
+	if err := c.conn.SetReadDeadline(d); err != nil {
+		log.Fatalf("connection SetReadDeadline failed. %v",err)
+	}
+}
+
+func (c *WsClient) setWriteDeadline(d time.Time)  {
+	if err := c.conn.SetReadDeadline(d); err != nil {
+		log.Fatalf("connection SetWriteDeadline failed. %v", err)
+	}
+}
+
 func (c *WsClient) readPump() {
 	defer func() {
-		c.conn.Close()
+		util.Close(c.conn)
 		close(c.RecvChan)
 	}()
 
 	//c.ws.SetReadLimit(maxMessageSize)
-	c.conn.SetReadDeadline(time.Now().Add(PongWait))
-	c.conn.SetPongHandler(func(string) error { c.conn.SetReadDeadline(time.Now().Add(PongWait)); return nil })
+	c.setReadDeadline(time.Now().Add(PongWait))
+	c.conn.SetPongHandler(func(string) error {c.setReadDeadline(time.Now().Add(PongWait));return nil })
+	
 	for {
 		_, message, err := c.conn.ReadMessage()
 		if err != nil {
@@ -74,6 +88,12 @@ func (c *WsClient) readPump() {
 	}
 }
 
+func (c *WsClient) writeMessage(messageType int, data []byte) {
+	if err := c.conn.WriteMessage(messageType,data); err != nil {
+		log.Fatalf("write msg failed. messageType=%d, %v",messageType,err)
+	}
+}
+
 func (c *WsClient) writePump() {
 	ticker := time.NewTicker(PingPeriod)
 	defer func() {
@@ -82,11 +102,11 @@ func (c *WsClient) writePump() {
 	for {
 		select {
 		case message, ok := <-c.SendChan:
-			c.conn.SetWriteDeadline(time.Now().Add(WriteWait))
+			c.setWriteDeadline(time.Now().Add(WriteWait))
 			if !ok {
-				c.conn.SetWriteDeadline(time.Now().Add(WriteWait))
+				c.setWriteDeadline(time.Now().Add(WriteWait))
 				// The hub closed the channel.
-				c.conn.WriteMessage(websocket.CloseMessage, []byte{})
+				c.writeMessage(websocket.CloseMessage, []byte{})
 				return
 			}
 
@@ -94,12 +114,16 @@ func (c *WsClient) writePump() {
 			if err != nil {
 				return
 			}
-			w.Write(message)
+			if _,err := w.Write(message); err != nil{
+				log.Fatalf("write msg failed. %v",err)
+			}
 
 			// Add queued chat messages to the current websocket message.
 			n := len(c.SendChan)
 			for i := 0; i < n; i++ {
-				w.Write(<-c.SendChan)
+				if _,err := w.Write(<-c.SendChan); err != nil {
+					log.Fatalf("write msg faield. %v",err)
+				}
 			}
 
 			if err := w.Close(); err != nil {

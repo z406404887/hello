@@ -5,6 +5,7 @@ import (
 	"hello/internal/app/game"
 	"log"
 	"os"
+	"hello/internal/pkg/util"
 )
 
 func main() {
@@ -14,12 +15,7 @@ func main() {
 		return
 	}
 
-	defer func() {
-		err := f.Close()
-		if err != nil {
-			log.Printf("close file failed. %v", err)
-		}
-	}()
+	defer util.Close(f)
 	log.SetOutput(f)
 
 	var path string

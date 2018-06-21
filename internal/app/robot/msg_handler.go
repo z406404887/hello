@@ -59,7 +59,10 @@ func handleGameMsg(robot *Robot, header *network.CommonHeader, data []byte) {
 
 func handleRollResponse(robot *Robot, heaer *network.CommonHeader, data []byte) {
 	rsp := &pbgame.RollResponse{}
-	proto.Unmarshal(data, rsp)
+	if err := proto.Unmarshal(data, rsp); err != nil{
+		log.Fatalf("unmarshal failed. %v",err)
+		return
+	}
 	if rsp.Win > 0 {
 		log.Printf("win:%d", rsp.Win)
 		log.Printf("previous:%d", robot.Money)
