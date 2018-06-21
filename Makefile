@@ -1,35 +1,42 @@
 ## Makefile
 
+.PHONY: setup
+setup: ## Install all the build and lint dependencies
+	go get -u github.com/alecthomas/gometalinter
+	go get -u github.com/golang/dep/cmd/dep
+	gometalinter --install --update
+	@$(MAKE) dep
+
 .PHONY: dep
 dep : ## run dep ensure and prune
-        dep ensure
-        dep prune
+	dep ensure
+	dep prune
 
 .PHONY: fmt
-fmt :
-    find . -name '*.go' -not -wholename './vendor/*' | while read -r file; do goimports -w "$$file"; done
+fmt:
+	find . -name '*.go' -not -wholename './vendor/*' | while read -r file; do goimports -w "$$file"; done
 
 .PHONY: lint
 lint: ## Run all the linters
 	gometalinter --vendor --disable-all \
-		--enable=deadcode \
-		--enable=ineffassign \
-		--enable=gosimple \
-		--enable=staticcheck \
-		--enable=gofmt \
-		--enable=goimports \
-		--enable=misspell \
-		--enable=errcheck \
-		--enable=vet \
-		--enable=vetshadow \
-		--deadline=10m \
-		./...
+	--enable=deadcode \
+	--enable=ineffassign \
+	--enable=gosimple \
+	--enable=staticcheck \
+	--enable=gofmt \
+	--enable=goimports \
+	--enable=misspell \
+	--enable=errcheck \
+	--enable=vet \
+	--enable=vetshadow \
+	--deadline=10m \
+	./...
 
 .PHONY: build
 build: ## Build a version
 	go build -v ./cmd/...
 
-.PHONY: clean
+.PHONY:clean
 clean: ## Remove temporary files
 	go clean
 
