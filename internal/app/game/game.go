@@ -109,7 +109,7 @@ func (gate *Game) doWork() {
 			gate.onClose()
 		case err := <-gate.errChan:
 			log.Printf("server error %v \n", err)
-			return 
+			return
 		}
 	}
 }

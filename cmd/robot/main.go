@@ -26,7 +26,7 @@ func main() {
 	defer func() {
 		err := f.Close()
 		if err != nil {
-			log.Printf("close file failed. %v",err)
+			log.Printf("close file failed. %v", err)
 		}
 	}()
 	log.SetOutput(f)

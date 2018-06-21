@@ -17,7 +17,7 @@ func main() {
 	defer func() {
 		err := f.Close()
 		if err != nil {
-			log.Printf("close file failed. %v",err)
+			log.Printf("close file failed. %v", err)
 		}
 	}()
 	log.SetOutput(f)
@@ -38,6 +38,6 @@ func main() {
 		return
 	}
 	if err = srv.Run(); err != nil {
-		log.Fatalf("fatal error, exiting.%v",err)
+		log.Fatalf("fatal error, exiting.%v", err)
 	}
 }

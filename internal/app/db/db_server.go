@@ -9,9 +9,10 @@ import (
 	"net"
 	"time"
 
+	"hello/internal/pkg/util"
+
 	_ "github.com/go-sql-driver/mysql"
 	"google.golang.org/grpc"
-	"hello/internal/pkg/util"
 )
 
 type DbServer struct {
@@ -60,10 +61,10 @@ func (srv *DbServer) LoadPlayer(context context.Context, req *pbgame.LoadRequest
 		return rsp, err
 	}
 	defer func() {
-		 err := query.Close()
-		 if err != nil {
-		 	log.Fatalf("query close failed. %v",err)
-		 }
+		err := query.Close()
+		if err != nil {
+			log.Fatalf("query close failed. %v", err)
+		}
 	}()
 
 	err = query.QueryRow(req.Account).Scan(&rsp.Uid, &rsp.Name, &rsp.Money)
@@ -84,9 +85,9 @@ func (srv *DbServer) SavePlayer(context context.Context, req *pbgame.SaveRequest
 		return rsp, err
 	}
 	defer func() {
-		 if err := update.Close() ; err != nil {
-		 	log.Fatalf("query close failed. %v",err)
-		 }
+		if err := update.Close(); err != nil {
+			log.Fatalf("query close failed. %v", err)
+		}
 	}()
 	_, err = update.Exec(req.Money, req.Uid)
 	if err != nil {
@@ -103,8 +104,8 @@ func (srv *DbServer) CreatePlayer(context context.Context, req *pbgame.CreatePla
 	rsp := &pbgame.CreatePlayerResponse{}
 	tx, err := srv.db.Begin()
 	defer func() {
-		if err := tx.Commit(); err != nil{
-			log.Fatalf("commit transaction failed. %v",err)
+		if err := tx.Commit(); err != nil {
+			log.Fatalf("commit transaction failed. %v", err)
 		}
 	}()
 	if err != nil {
