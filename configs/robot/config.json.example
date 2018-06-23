@@ -1,0 +1,7 @@
+{
+    "num":1,
+    "srvAddr":"ws://127.0.0.1:11000",
+    "interval":500,
+    "accFormat":"robot-%05d",
+    "password":"123456"
+}
