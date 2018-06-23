@@ -116,12 +116,13 @@ func (gate *Game) doWork() {
 
 var upgrader = websocket.Upgrader{}
 
-func (gate *Game) ServeWs() {
-	http.HandleFunc("/", gate.HandleHttpMsg)
-	err := http.ListenAndServe(gate.cfg.Addr, nil)
+func (game *Game) ServeWs() {
+	http.HandleFunc("/", game.HandleHttpMsg)
+	log.Printf("game listen on %s", game.cfg.Addr)
+	err := http.ListenAndServe(game.cfg.Addr, nil)
 	log.Println("goroutine num", runtime.NumGoroutine())
 	if err != nil {
-		gate.errChan <- err
+		game.errChan <- err
 	}
 }
 
