@@ -55,7 +55,7 @@ manager:
 
 .PHONY: game
 game:
-	go build -o ./bin/game ./cmd/robot/main.go 
+	go build -o ./bin/game ./cmd/game/main.go 
 
 .PHONY: robot
 robot:
