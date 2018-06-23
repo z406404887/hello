@@ -7,11 +7,11 @@ import (
 )
 
 type Configuration struct {
-	SrvAddr    string       `json:"srvAddr"`
-	Num int `json:"num"`
+	SrvAddr       string        `json:"srvAddr"`
+	Num           int           `json:"num"`
 	SleepInterval time.Duration `json:"interval"`
-	AccFormat string `json:"accFormat"`
-	Password string `json:"password"`
+	AccFormat     string        `json:"accFormat"`
+	Password      string        `json:"password"`
 }
 
 func NewConfiguration(path string) (*Configuration, error) {

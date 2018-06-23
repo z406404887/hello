@@ -1,17 +1,17 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"hello/internal/app/robot"
+	"hello/internal/pkg/util"
 	"log"
 	"os"
 	"sync"
 	"time"
-	"flag"
-	"hello/internal/pkg/util"
 )
 
-func RunRobot(wg *sync.WaitGroup, i int,cfg *robot.Configuration) {
+func RunRobot(wg *sync.WaitGroup, i int, cfg *robot.Configuration) {
 	defer wg.Done()
 	account := fmt.Sprintf(cfg.AccFormat, i)
 	bot := robot.NewRobot(account, cfg.Password, cfg.SrvAddr)
@@ -40,9 +40,9 @@ func main() {
 
 	log.SetOutput(f)
 
-	cfg , err := robot.NewConfiguration(path)
+	cfg, err := robot.NewConfiguration(path)
 	if err != nil {
-		log.Printf("read configuration failed. %v",err)
+		log.Printf("read configuration failed. %v", err)
 		return
 	}
 
@@ -50,7 +50,7 @@ func main() {
 	for i := 0; i < cfg.Num; i++ {
 		time.Sleep(cfg.SleepInterval * time.Millisecond)
 		wg.Add(1)
-		go RunRobot(&wg, i,cfg)
+		go RunRobot(&wg, i, cfg)
 	}
 	wg.Wait()
 }
