@@ -1,3 +1,0 @@
-go install ../cmd/...
-
-cp $GOPATH/bin ../bin -r
