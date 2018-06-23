@@ -39,27 +39,27 @@ build: gateway login dbserver manager robot game
 
 .PHONY: gateway 
 gateway:
-	go build -v -o ./bin/gateway ./cmd/gateway/main.go 
+	go build -o ./bin/gateway ./cmd/gateway/main.go 
 
 .PHONY: login
 login:
-	go build -v -o ./bin/login ./cmd/login/main.go 
+	go build -o ./bin/login ./cmd/login/main.go 
 
 .PHONY: dbserver
 dbserver:
-	go build -v -o ./bin/dbserver ./cmd/dbserver/main.go 
+	go build -o ./bin/dbserver ./cmd/dbserver/main.go 
 
 .PHONY: manager
 manager:
-	go build -v -o ./bin/manager ./cmd/manager/main.go 
+	go build -o ./bin/manager ./cmd/manager/main.go 
 
 .PHONY: game
 game:
-	go build -v -o ./bin/game ./cmd/robot/main.go 
+	go build -o ./bin/game ./cmd/robot/main.go 
 
 .PHONY: robot
 robot:
-	go build -v -o ./bin/robot ./cmd/robot/main.go 
+	go build -o ./bin/robot ./cmd/robot/main.go 
 
 .PHONY:clean
 clean: ## Remove temporary files

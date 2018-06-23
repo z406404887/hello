@@ -9,3 +9,4 @@ src/google.golang.org/
 
 *.a
 *.log
+config.json
