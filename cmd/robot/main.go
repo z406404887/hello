@@ -8,6 +8,7 @@ import (
 	"sync"
 	"time"
 	"flag"
+	"hello/internal/pkg/util"
 )
 
 func RunRobot(wg *sync.WaitGroup, i int,cfg *robot.Configuration) {
@@ -35,12 +36,8 @@ func main() {
 		return
 	}
 
-	defer func() {
-		err := f.Close()
-		if err != nil {
-			log.Printf("close file failed. %v", err)
-		}
-	}()
+	defer util.Close(f)
+
 	log.SetOutput(f)
 
 	cfg , err := robot.NewConfiguration(path)
