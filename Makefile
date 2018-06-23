@@ -1,5 +1,6 @@
 ## Makefile
 
+
 .PHONY: setup
 setup: ## Install all the build and lint dependencies
 	go get -u github.com/alecthomas/gometalinter
@@ -33,8 +34,32 @@ lint: ## Run all the linters
 	./...
 
 .PHONY: build
-build: ## Build a version
-	go build -v ./cmd/...
+build: gateway login dbserver manager robot game
+
+
+.PHONY: gateway 
+gateway:
+	go build -o ./bin/gateway ./cmd/gateway/main.go 
+
+.PHONY: login
+login:
+	go build -o ./bin/login ./cmd/login/main.go 
+
+.PHONY: dbserver
+dbserver:
+	go build -o ./bin/dbserver ./cmd/dbserver/main.go 
+
+.PHONY: manager
+manager:
+	go build -o ./bin/manager ./cmd/manager/main.go 
+
+.PHONY: game
+game:
+	go build -o ./bin/game ./cmd/robot/main.go 
+
+.PHONY: robot
+robot:
+	go build -o ./bin/robot ./cmd/robot/main.go 
 
 .PHONY:clean
 clean: ## Remove temporary files

@@ -32,7 +32,7 @@ func (mgr *Manager) Run() error {
 	lis, err := net.Listen("tcp", mgr.cfg.Addr)
 	log.Printf("manager listen at %s", mgr.cfg.Addr)
 	if err != nil {
-		log.Fatalf("failed to listen at %s. %v", mgr.cfg.Addr, err)
+		log.Printf("failed to listen at %s. %v", mgr.cfg.Addr, err)
 	}
 
 	grpcServer := grpc.NewServer()

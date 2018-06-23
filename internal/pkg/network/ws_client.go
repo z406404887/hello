@@ -56,13 +56,13 @@ func (client *WsClient) dial() (*websocket.Conn, error) {
 
 func (c *WsClient) setReadDeadline(d time.Time) {
 	if err := c.conn.SetReadDeadline(d); err != nil {
-		log.Fatalf("connection SetReadDeadline failed. %v", err)
+		log.Printf("connection SetReadDeadline failed. %v", err)
 	}
 }
 
 func (c *WsClient) setWriteDeadline(d time.Time) {
 	if err := c.conn.SetReadDeadline(d); err != nil {
-		log.Fatalf("connection SetWriteDeadline failed. %v", err)
+		log.Printf("connection SetWriteDeadline failed. %v", err)
 	}
 }
 
@@ -91,7 +91,7 @@ func (c *WsClient) readPump() {
 
 func (c *WsClient) writeMessage(messageType int, data []byte) {
 	if err := c.conn.WriteMessage(messageType, data); err != nil {
-		log.Fatalf("write msg failed. messageType=%d, %v", messageType, err)
+		log.Printf("write msg failed. messageType=%d, %v", messageType, err)
 	}
 }
 
@@ -116,14 +116,14 @@ func (c *WsClient) writePump() {
 				return
 			}
 			if _, err := w.Write(message); err != nil {
-				log.Fatalf("write msg failed. %v", err)
+				log.Printf("write msg failed. %v", err)
 			}
 
 			// Add queued chat messages to the current websocket message.
 			n := len(c.SendChan)
 			for i := 0; i < n; i++ {
 				if _, err := w.Write(<-c.SendChan); err != nil {
-					log.Fatalf("write msg faield. %v", err)
+					log.Printf("write msg faield. %v", err)
 				}
 			}
 

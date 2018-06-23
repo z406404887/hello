@@ -44,7 +44,7 @@ func (login *Login) Run() error {
 	log.Printf("configuration %v", login.cfg)
 	lis, err := net.Listen("tcp", login.cfg.Addr)
 	if err != nil {
-		log.Fatalf("failed to listen at %s. %v", login.cfg.Addr, err)
+		log.Printf("failed to listen at %s. %v", login.cfg.Addr, err)
 	}
 
 	grpcServer := grpc.NewServer()
@@ -73,7 +73,7 @@ func (login *Login) doLogin(req *pbgame.LoginRequest, rsp *pbgame.LoginResponse)
 		log.Printf("prepare sql failed. %v", err)
 		rsp.ErrorCode = pbgame.ErrorCode_MYSQL_ERROR
 		if err = tx.Rollback(); err != nil {
-			log.Fatalf("rollback failed.%v", err)
+			log.Printf("rollback failed.%v", err)
 		}
 		return
 	}
@@ -86,10 +86,10 @@ func (login *Login) doLogin(req *pbgame.LoginRequest, rsp *pbgame.LoginResponse)
 	if err != nil {
 		ins, err := tx.Prepare("insert into account(`account`,`password`) values(?,?)")
 		if err != nil {
-			log.Fatalf("tx prepared faield. %v", err)
+			log.Printf("tx prepared faield. %v", err)
 			rsp.ErrorCode = pbgame.ErrorCode_MYSQL_ERROR
 			if err = tx.Rollback(); err != nil {
-				log.Fatalf("rollback failed.%v", err)
+				log.Printf("rollback failed.%v", err)
 			}
 			return
 		}
