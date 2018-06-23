@@ -11,6 +11,6 @@ type closer interface {
 func Close(c closer) {
 	err := c.Close()
 	if err != nil {
-		log.Fatalf("close stmt failed. %v", err)
+		log.Printf("close stmt failed. %v", err)
 	}
 }

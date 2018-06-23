@@ -46,7 +46,7 @@ func (db *DbServer) Run() error {
 	log.Printf("configuration %v", db.cfg)
 	lis, err := net.Listen("tcp", db.cfg.Addr)
 	if err != nil {
-		log.Fatalf("failed to listen at %s. %v", db.cfg.Addr, err)
+		log.Printf("failed to listen at %s. %v", db.cfg.Addr, err)
 	}
 	grpcServer := grpc.NewServer()
 	pbgame.RegisterDBServer(grpcServer, db)
@@ -138,7 +138,7 @@ func (srv *DbServer) CreatePlayer(context context.Context, req *pbgame.CreatePla
 	}
 
 	if err := tx.Commit(); err != nil {
-		log.Fatalf("commit transaction failed. %v", err)
+		log.Printf("commit transaction failed. %v", err)
 	}
 	rsp.Result = pbgame.ErrorCode_SUCCESS
 	rsp.Uid = uint32(uid)

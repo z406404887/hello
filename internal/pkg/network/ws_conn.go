@@ -26,19 +26,19 @@ func (ws *WsConn) ReadMsg() (int, []byte, error) {
 
 func (c *WsConn) setReadDeadline(d time.Time) {
 	if err := c.conn.SetReadDeadline(d); err != nil {
-		log.Fatalf("connection SetReadDeadline failed. %v", err)
+		log.Printf("connection SetReadDeadline failed. %v", err)
 	}
 }
 
 func (c *WsConn) setWriteDeadline(d time.Time) {
 	if err := c.conn.SetReadDeadline(d); err != nil {
-		log.Fatalf("connection SetWriteDeadline failed. %v", err)
+		log.Printf("connection SetWriteDeadline failed. %v", err)
 	}
 }
 
 func (c *WsConn) writeMessage(messageType int, data []byte) {
 	if err := c.conn.WriteMessage(messageType, data); err != nil {
-		log.Fatalf("write msg failed. messageType=%d, %v", messageType, err)
+		log.Printf("write msg failed. messageType=%d, %v", messageType, err)
 	}
 }
 
@@ -64,13 +64,13 @@ func (ws *WsConn) writePump() {
 				return
 			}
 			if _, err := w.Write(message); err != nil {
-				log.Fatalf("WsConn write msg failed. %v", err)
+				log.Printf("WsConn write msg failed. %v", err)
 			}
 
 			n := len(ws.SendChan)
 			for i := 0; i < n; i++ {
 				if _, err := w.Write(<-ws.SendChan); err != nil {
-					log.Fatalf("WsConn write msg failed. %v", err)
+					log.Printf("WsConn write msg failed. %v", err)
 				}
 			}
 

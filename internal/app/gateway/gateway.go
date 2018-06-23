@@ -10,9 +10,10 @@ import (
 	"sync"
 	"time"
 
+	"hello/internal/pkg/util"
+
 	"github.com/gorilla/websocket"
 	"google.golang.org/grpc"
-	"hello/internal/pkg/util"
 )
 
 type Gateway struct {
