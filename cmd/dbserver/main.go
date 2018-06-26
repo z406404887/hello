@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"hello/internal/app/db"
-	"hello/internal/pkg/util"
+	"starter-kit/internal/app/db"
+	"starter-kit/internal/pkg/util"
 	"log"
 	"os"
 )

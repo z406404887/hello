@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	"hello/internal/app/robot"
-	"hello/internal/pkg/util"
+	"starter-kit/internal/app/robot"
+	"starter-kit/internal/pkg/util"
 	"log"
 	"os"
 	"sync"

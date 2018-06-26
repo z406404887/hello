@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"hello/internal/app/manager"
+	"starter-kit/internal/app/manager"
 	"log"
 )
 

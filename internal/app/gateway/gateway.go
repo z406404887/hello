@@ -2,15 +2,15 @@ package gateway
 
 import (
 	"context"
-	"hello/internal/pkg/network"
-	"hello/internal/pkg/pb/pbgame"
+	"starter-kit/internal/pkg/network"
+	"starter-kit/internal/pkg/pb/pbgame"
 	"log"
 	"net/http"
 	"runtime"
 	"sync"
 	"time"
 
-	"hello/internal/pkg/util"
+	"starter-kit/internal/pkg/util"
 
 	"github.com/gorilla/websocket"
 	"google.golang.org/grpc"

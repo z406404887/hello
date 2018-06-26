@@ -2,8 +2,8 @@ package game
 
 import (
 	"context"
-	"hello/internal/pkg/network"
-	"hello/internal/pkg/pb/pbgame"
+	"starter-kit/internal/pkg/network"
+	"starter-kit/internal/pkg/pb/pbgame"
 	"log"
 	"math/rand"
 	"time"

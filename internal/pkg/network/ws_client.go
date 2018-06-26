@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	"hello/internal/pkg/util"
+	"starter-kit/internal/pkg/util"
 
 	"github.com/gorilla/websocket"
 )

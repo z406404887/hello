@@ -1,7 +1,7 @@
 package gateway
 
 import (
-	"hello/internal/pkg/network"
+	"starter-kit/internal/pkg/network"
 	"log"
 )
 

@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"hello/internal/app/game"
-	"hello/internal/pkg/util"
+	"starter-kit/internal/app/game"
+	"starter-kit/internal/pkg/util"
 	"log"
 	"os"
 )

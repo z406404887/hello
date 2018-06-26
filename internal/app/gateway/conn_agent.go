@@ -1,8 +1,8 @@
 package gateway
 
 import (
-	"hello/internal/pkg/network"
-	"hello/internal/pkg/pb/pbgame"
+	"starter-kit/internal/pkg/network"
+	"starter-kit/internal/pkg/pb/pbgame"
 	"log"
 
 	"github.com/gorilla/websocket"

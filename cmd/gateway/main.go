@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"hello/internal/app/gateway"
-	"hello/internal/pkg/util"
+	"starter-kit/internal/app/gateway"
+	"starter-kit/internal/pkg/util"
 	"log"
 	"os"
 )

@@ -2,7 +2,7 @@ package game
 
 import (
 	"fmt"
-	"hello/internal/pkg/network"
+	"starter-kit/internal/pkg/network"
 	"log"
 	"net/http"
 	"runtime"

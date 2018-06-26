@@ -4,12 +4,12 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"hello/internal/pkg/pb/pbgame"
+	"starter-kit/internal/pkg/pb/pbgame"
 	"log"
 	"net"
 	"time"
 
-	"hello/internal/pkg/util"
+	"starter-kit/internal/pkg/util"
 
 	_ "github.com/go-sql-driver/mysql"
 	"google.golang.org/grpc"
