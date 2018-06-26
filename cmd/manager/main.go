@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"starter-kit/internal/app/manager"
 	"log"
+	"starter-kit/internal/app/manager"
 )
 
 func main() {

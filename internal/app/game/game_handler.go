@@ -2,10 +2,10 @@ package game
 
 import (
 	"context"
-	"starter-kit/internal/pkg/network"
-	"starter-kit/internal/pkg/pb/pbgame"
 	"log"
 	"math/rand"
+	"starter-kit/internal/pkg/network"
+	"starter-kit/internal/pkg/pb/pbgame"
 	"time"
 
 	"github.com/golang/protobuf/proto"

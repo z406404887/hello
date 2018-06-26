@@ -3,9 +3,9 @@ package login
 import (
 	"database/sql"
 	"fmt"
-	"starter-kit/internal/pkg/pb/pbgame"
 	"log"
 	"net"
+	"starter-kit/internal/pkg/pb/pbgame"
 
 	"starter-kit/internal/pkg/util"
 

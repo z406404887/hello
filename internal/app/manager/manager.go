@@ -2,10 +2,10 @@ package manager
 
 import (
 	"errors"
-	"starter-kit/internal/pkg/network"
-	"starter-kit/internal/pkg/pb/pbgame"
 	"log"
 	"net"
+	"starter-kit/internal/pkg/network"
+	"starter-kit/internal/pkg/pb/pbgame"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"

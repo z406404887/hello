@@ -1,8 +1,8 @@
 package robot
 
 import (
-	"starter-kit/internal/pkg/network"
 	"log"
+	"starter-kit/internal/pkg/network"
 
 	"github.com/golang/protobuf/proto"
 )

@@ -4,9 +4,9 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"starter-kit/internal/pkg/pb/pbgame"
 	"log"
 	"net"
+	"starter-kit/internal/pkg/pb/pbgame"
 	"time"
 
 	"starter-kit/internal/pkg/util"

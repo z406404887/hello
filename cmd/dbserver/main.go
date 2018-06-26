@@ -2,10 +2,10 @@ package main
 
 import (
 	"flag"
-	"starter-kit/internal/app/db"
-	"starter-kit/internal/pkg/util"
 	"log"
 	"os"
+	"starter-kit/internal/app/db"
+	"starter-kit/internal/pkg/util"
 )
 
 func main() {

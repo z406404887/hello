@@ -1,9 +1,9 @@
 package gateway
 
 import (
+	"log"
 	"starter-kit/internal/pkg/network"
 	"starter-kit/internal/pkg/pb/pbgame"
-	"log"
 
 	"github.com/gorilla/websocket"
 )

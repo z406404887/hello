@@ -34,7 +34,7 @@ lint: ## Run all the linters
 	./...
 
 .PHONY: build
-build: gateway login dbserver manager robot game
+build: gateway login dbserver manager robot game ## build all targets into bin directory
 
 
 .PHONY: gateway 

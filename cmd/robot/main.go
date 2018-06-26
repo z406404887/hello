@@ -3,10 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"starter-kit/internal/app/robot"
-	"starter-kit/internal/pkg/util"
 	"log"
 	"os"
+	"starter-kit/internal/app/robot"
+	"starter-kit/internal/pkg/util"
 	"sync"
 	"time"
 )

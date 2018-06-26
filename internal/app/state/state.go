@@ -2,10 +2,10 @@ package state
 
 import (
 	"fmt"
-	"starter-kit/internal/pkg/network"
 	"log"
 	"net/http"
 	"runtime"
+	"starter-kit/internal/pkg/network"
 	"sync"
 
 	"github.com/gorilla/websocket"

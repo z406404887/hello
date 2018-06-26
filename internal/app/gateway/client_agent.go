@@ -1,8 +1,8 @@
 package gateway
 
 import (
-	"starter-kit/internal/pkg/network"
 	"log"
+	"starter-kit/internal/pkg/network"
 )
 
 type ClientAgent struct {

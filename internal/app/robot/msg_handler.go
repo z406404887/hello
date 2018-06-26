@@ -1,9 +1,9 @@
 package robot
 
 import (
+	"log"
 	"starter-kit/internal/pkg/network"
 	"starter-kit/internal/pkg/pb/pbgame"
-	"log"
 	"time"
 
 	"github.com/golang/protobuf/proto"

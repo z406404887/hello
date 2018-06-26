@@ -2,11 +2,11 @@ package gateway
 
 import (
 	"context"
-	"starter-kit/internal/pkg/network"
-	"starter-kit/internal/pkg/pb/pbgame"
 	"log"
 	"net/http"
 	"runtime"
+	"starter-kit/internal/pkg/network"
+	"starter-kit/internal/pkg/pb/pbgame"
 	"sync"
 	"time"
 
