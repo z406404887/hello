@@ -46,8 +46,9 @@ func handleRoll(agent *ConnAgent, header *network.CommonHeader, data []byte) {
 	player.money += win
 
 	svcReq := &pbgame.SaveRequest{
-		Uid:   player.id,
-		Money: player.money,
+		Account: player.account,
+		Uid:     player.id,
+		Money:   player.money,
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 
@@ -103,6 +104,7 @@ func doEnterGame(agent *ConnAgent, req *pbgame.EnterGameRequest, rsp *pbgame.Ent
 		return pbgame.ErrorCode_MYSQL_ERROR
 	}
 
+	log.Printf("LoadPlayer result=%d", svcRsp.Result)
 	if svcRsp.Result != pbgame.ErrorCode_ACCOUNT_NOT_EXISTS {
 		rsp.Uid = svcRsp.Uid
 		rsp.Name = svcRsp.Name
@@ -111,6 +113,7 @@ func doEnterGame(agent *ConnAgent, req *pbgame.EnterGameRequest, rsp *pbgame.Ent
 	}
 
 	//if not exists, create new player
+	log.Printf("create new player.")
 	newReq := &pbgame.CreatePlayerRequest{
 		Account: req.Account,
 		Name:    req.Account,

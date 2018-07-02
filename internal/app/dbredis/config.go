@@ -1,0 +1,36 @@
+package dbredis
+
+import (
+	"encoding/json"
+	"io/ioutil"
+)
+
+type DbInfo struct {
+	Host     string `json:"host"`
+	Port     int32  `json:"port"`
+	Password string `json:"password"`
+	Db       int    `json:"db"`
+}
+
+type Configuration struct {
+	Id   uint16 `json:"id"`
+	Type uint16 `json:"type"`
+	Addr string `json:"addr"`
+	Db   DbInfo `json:"db"`
+}
+
+func NewConfiguration(path string) (*Configuration, error) {
+	data, err := ioutil.ReadFile(path)
+
+	if err != nil {
+		return nil, err
+	}
+
+	cfg := &Configuration{}
+	err = json.Unmarshal(data, cfg)
+
+	if err != nil {
+		return nil, err
+	}
+	return cfg, nil
+}

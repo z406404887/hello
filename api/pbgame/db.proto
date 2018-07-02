@@ -22,9 +22,10 @@ message LoadResponse{
 }
 
 message SaveRequest {
-    uint32 uid = 1;
-    string name = 2;
-    int32 money = 3;
+    string account = 1;
+    uint32 uid = 2;
+    string name = 3;
+    int32 money = 4;
 }
 
 message SaveResponse {
